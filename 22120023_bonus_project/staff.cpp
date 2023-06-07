@@ -22,20 +22,30 @@
 //	getline(csv, list_staffs[i]->pass_word);*/
 //}
 
-staff** init_list_staffs(int n)
+staff** init_list_staffs(int& n_o_s)
 {
+	string count_line;
+	int count = 0;
 	fstream csv;
 	csv.open("staff.txt", ios_base::in);
 	if (!csv)
 	{
-		cout << "\nMo file CVS that bai!\n";
+		cout << "\nMo file CSV that bai!\n";
 		return NULL;
 	}
-	staff** list_staffs = new staff * [n];
+	else
+	{
+		while (getline(csv, count_line) && !csv.eof())
+			count++;
+	}
+	n_o_s = count - 1; // first line includes only the headings
+	staff** list_staffs = new staff * [n_o_s];
+	csv.clear();
+	csv.seekg(0, ios::beg);
 	string line;
 	char c;
 	getline(csv, line); // first line includes only the headings
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n_o_s; i++)
 	{
 		list_staffs[i] = new staff;
 		csv >> list_staffs[i]->ID;
@@ -52,9 +62,9 @@ staff** init_list_staffs(int n)
 	return list_staffs;
 }
 
-void display_list_staffs(staff** list_staffs, int n)
+void display_list_staffs(staff** list_staffs, int n_o_s)
 {
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n_o_s; i++)
 	{
 		cout << "\nSTT: " << i + 1;
 		cout << "\nID: " << list_staffs[i]->ID;

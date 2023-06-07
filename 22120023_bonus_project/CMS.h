@@ -59,9 +59,10 @@ typedef struct STAFF
 //	//school_year 
 //} course;
 
-staff** init_list_staffs(int n);
-
-void display_list_staffs(staff** list_staffs, int n);
+staff** init_list_staffs(int& n_o_s);
+bool sign_in_staff();
+bool sign_out_staff();
+void display_list_staffs(staff** list_staffs, int n_o_s);
 
 #endif // !_course_management_system_h_
 

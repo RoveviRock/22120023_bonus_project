@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="staff.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>

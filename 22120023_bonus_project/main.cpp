@@ -2,13 +2,14 @@
 
 int main(int argc, const char* argv[])
 {
-	int count = 0;
+	int n_o_s = 0; // num of staffs
+	/*int count = 0;
 	string line;
 	fstream csv;
 	csv.open("staff.txt", ios_base::in);
 	if (!csv)
 	{
-		cout << "\nMo file CVS that bai!\n";
+		cout << "\nMo file CSV that bai!\n";
 		return NULL;
 	}
 	else
@@ -17,8 +18,9 @@ int main(int argc, const char* argv[])
 			count++;
 	}
 	csv.close();
-	staff** list_staffs = init_list_staffs(count - 1);
-	display_list_staffs(list_staffs, count - 1);
+	n_o_s = count - 1;*/
+	staff** list_staffs = init_list_staffs(n_o_s);
+	display_list_staffs(list_staffs, n_o_s);
 	system("pause");
 	return 0;
 }
