@@ -59,9 +59,14 @@ typedef struct STAFF
 //	//school_year 
 //} course;
 
+void invalidInput();
+
 staff** init_list_staffs(int& n_o_s);
-bool sign_in_staff();
+//bool sign_in_staff(staff** list_staffs, int n_o_s);
+staff* sign_in_staff(staff** list_staffs, int n_o_s);
 bool sign_out_staff();
+void display_staff(staff* staff);
+void display_profile(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_s);
 
 #endif // !_course_management_system_h_

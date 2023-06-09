@@ -5,3 +5,4 @@ ID,name,gender,day_of_birth,pass_word
 120004,Tran Dan,male,13 7 1980,KHTN@120004
 120005,Bui Van Cuong,male,24 8 1991,KHTN@120005
 120006,Phan Thanh Hung,male,15 8 1970,KHTN@120006
+120007,Le Van Nhac,male,29 7 1976,KHTN@120007
