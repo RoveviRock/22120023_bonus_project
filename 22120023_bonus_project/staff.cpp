@@ -1,12 +1,5 @@
 #include "CMS.h"
 
-void invalidInput()
-{
-	cin.clear();
-	cin.ignore(1000, '\n');
-	cout << "The entered data is invalid\nPlease re-enter: ";
-}
-
 staff** init_list_staffs(int& n_o_s)
 {
 	string count_line;
@@ -47,50 +40,6 @@ staff** init_list_staffs(int& n_o_s)
 	return list_staffs;
 }
 
-//bool sign_in_staff(staff** list_staffs, int n_o_s)
-//{
-//	bool check = false;
-//	int ID = 0;
-//	string pass_word;
-//	cout << "Enter staff ID: ";
-//	while (!(cin >> ID))
-//		invalidInput();
-//	for (int i = 0; i < n_o_s; i++)
-//	{
-//		if (ID == list_staffs[i]->ID)
-//		{
-//			cout << "Enter password: ";
-//			while (!(getline(cin, pass_word)))
-//				invalidInput();
-//			while (pass_word != list_staffs[i]->pass_word)
-//			{
-//				int option = -1;
-//				cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
-//				while (!(cin >> option) || option < 0 || option>1)
-//					invalidInput();
-//				switch (option)
-//				{
-//				case 1:
-//				{
-//					cout << "Re-enter password: ";
-//					while (!(getline(cin, pass_word)))
-//						invalidInput();
-//					break;
-//				}
-//				case 0:
-//				{
-//					cout << "Sign in failed\n";
-//					return false;
-//					//break;
-//				}
-//				}
-//			}
-//			return true;
-//		}
-//	}
-//	return false;
-//}
-
 staff* sign_in_staff(staff** list_staffs, int n_o_s)
 {
 	staff* staff = nullptr;
@@ -98,6 +47,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 	int ID = 0;
 	string pass_word;
 	cout << "Enter staff ID: ";
+	//cin >> ID;
 	while (!(cin >> ID))
 		invalidInput();
 	for (int i = 0; i < n_o_s; i++)
@@ -106,12 +56,14 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 		{
 			cin.ignore(1000, '\n');
 			cout << "Enter password: ";
+			//getline(cin, pass_word);
 			while (!(getline(cin, pass_word)))
 				invalidInput();
 			while (pass_word != list_staffs[i]->pass_word)
 			{
 				int option = -1;
 				cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
+				//(cin >> option);
 				while (!(cin >> option) || option < 0 || option>1)
 					invalidInput();
 				switch (option)
@@ -120,6 +72,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 				{
 					cin.ignore(1000, '\n');
 					cout << "Re-enter password: ";
+					//getline(cin, pass_word);
 					while (!(getline(cin, pass_word)))
 						invalidInput();
 					break;
@@ -142,11 +95,47 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 	//return staff;
 }
 
+bool change_password_staff(staff* staff)
+{
+	cin.ignore(1000, '\n');
+	string pass_word;
+	cout << "Enter old password: ";
+	while (!(getline(cin, pass_word)))
+		invalidInput();
+	while (pass_word != staff->pass_word)
+	{
+		int option = -1;
+		cout << "Old password is not correct\nType 1: Re-enter old password.\nType 0: Forgot old password.\nEnter option: ";
+		while (!(cin >> option) || option < 0 || option>1)
+			invalidInput();
+		switch (option)
+		{
+		case 1:
+		{
+			cin.ignore(1000, '\n');
+			cout << "Re-enter old password: ";
+			while (!(getline(cin, pass_word)))
+				invalidInput();
+			break;
+		}
+		case 0:
+		{
+			cout << "Password change failed\n";
+			return false;
+		}
+		}
+	}
+	cout << "Enter new password: ";
+	while (!(getline(cin, staff->pass_word)))
+		invalidInput();
+	return true;
+}
 
 bool sign_out_staff()
 {
 	int option = -1;
 	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\nEnter option: ";
+	//cin >> option;
 	while (!(cin >> option) || option < 0 || option>1)
 		invalidInput();
 	switch (option)
@@ -173,7 +162,7 @@ void display_staff(staff* staff)
 	cout << "\nDay of birth: " << staff->d_o_b.d << "/" << staff->d_o_b.m << "/" << staff->d_o_b.y << endl;
 }
 
-void display_profile(staff* staff)
+void display_profile_staff(staff* staff)
 {
 	cout << "\nPersonal profile information: ";
 	display_staff(staff);
@@ -185,9 +174,5 @@ void display_list_staffs(staff** list_staffs, int n_o_s)
 	{
 		cout << "\nSTT: " << i + 1;
 		display_staff(list_staffs[i]);
-		/*cout << "\nID: " << list_staffs[i]->ID;
-		cout << "\nName: " << list_staffs[i]->name;
-		cout << "\nGender: " << list_staffs[i]->gender;
-		cout << "\nDay of birth: " << list_staffs[i]->d_o_b.d << "/" << list_staffs[i]->d_o_b.m << "/" << list_staffs[i]->d_o_b.y << endl;*/
 	}
 }

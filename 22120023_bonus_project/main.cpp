@@ -2,23 +2,7 @@
 
 int main(int argc, const char* argv[])
 {
-	int n_o_s = 0; // num of staffs
-	/*int count = 0;
-	string line;
-	fstream csv;
-	csv.open("staff.txt", ios_base::in);
-	if (!csv)
-	{
-		cout << "\nMo file CSV that bai!\n";
-		return NULL;
-	}
-	else
-	{
-		while (getline(csv, line) && !csv.eof())
-			count++;
-	}
-	csv.close();
-	n_o_s = count - 1;*/
+	int n_o_s = 0; 
 	staff** list_staffs = init_list_staffs(n_o_s);
 	display_list_staffs(list_staffs, n_o_s);
 
@@ -28,15 +12,21 @@ int main(int argc, const char* argv[])
 	{
 		int option = -1;
 		cout << "Login successful";
-		cout << "\nType 1: Display personal profile information.\nType 0: Sign out.\nEnter option: ";
-		cin >> option;
-		/*while (!(cin >> option) || option < 0 || option>1)
-			invalidInput();*/
+		cout << "\nType 1: Display personal profile information.\nType 2: Change password.\nType 0: Sign out.\nEnter option: ";
+		//cin >> option;
+		while (!(cin >> option) || option < 0 || option>2)
+			invalidInput();
 		switch (option)
 		{
 		case 1:
 		{
-			display_profile(staff);
+			display_profile_staff(staff);
+			break;
+		}
+		case 2:
+		{
+			if (change_password_staff(staff))
+				cout << "Password change successful";
 			break;
 		}
 		case 0:
@@ -46,6 +36,7 @@ int main(int argc, const char* argv[])
 		}
 		}
 	}
+	display_list_staffs(list_staffs, n_o_s);
 	system("pause");
 	return 0;
 }

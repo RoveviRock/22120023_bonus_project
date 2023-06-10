@@ -130,9 +130,12 @@
     <ClInclude Include="CMS.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="invalid_Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="staff.cpp" />
-    <ClCompile Include="student.cpp" />
+    <ClCompile Include="student.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="staff.txt" />
