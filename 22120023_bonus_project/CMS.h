@@ -25,24 +25,24 @@ typedef struct DATE_OF_BIRTH
 
 typedef struct STAFF
 {
-	int ID = 0;
+	string ID;
 	string name;
 	string gender;
 	birth d_o_b; // day of birth
 	string pass_word;
 } staff;
 
-//typedef struct STUDENT
-//{
-//	int student_ID = 0;
-//	string first_name;
-//	string last_name;
-//	string gender;
-//	birth d_o_b; // day of birth
-//	int social_ID = 0;
-//	string pass_word;
-//} student;
-//
+typedef struct STUDENT
+{
+	string student_ID;
+	string first_name;
+	string last_name;
+	string gender;
+	birth d_o_b; // day of birth
+	string social_ID;
+	string pass_word;
+} student;
+
 //typedef struct SCHOOL_YEAR
 //{
 //	int y = 0; // start_year
@@ -60,20 +60,20 @@ typedef struct STAFF
 //} course;
 
 void invalidInput();
-//{
-//	cin.clear();
-//	cin.ignore(1000, '\n');
-//	cout << "The entered data is invalid\nPlease re-enter: ";
-//}
 
+//STAFF
 staff** init_list_staffs(int& n_o_s);
-//bool sign_in_staff(staff** list_staffs, int n_o_s);
 staff* sign_in_staff(staff** list_staffs, int n_o_s);
 bool change_password_staff(staff* staff);
 bool sign_out_staff();
 void display_staff(staff* staff);
 void display_profile_staff(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_s);
+
+//STUDENT
+student** init_list_students(int& n_o_students);
+void display_student(student* student);
+void display_list_students(student** list_students, int n_o_students);
 
 #endif // !_course_management_system_h_
 

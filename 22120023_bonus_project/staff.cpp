@@ -26,8 +26,9 @@ staff** init_list_staffs(int& n_o_s)
 	for (int i = 0; i < n_o_s; i++)
 	{
 		list_staffs[i] = new staff;
-		csv >> list_staffs[i]->ID;
-		csv >> c; // read ','
+		getline(csv, list_staffs[i]->ID, ',');
+		/*csv >> list_staffs[i]->ID;
+		csv >> c;*/ // read ','
 		getline(csv, list_staffs[i]->name, ',');
 		getline(csv, list_staffs[i]->gender, ',');
 		csv >> list_staffs[i]->d_o_b.d;
@@ -44,11 +45,10 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 {
 	staff* staff = nullptr;
 	bool check = false;
-	int ID = 0;
+	string ID;
 	string pass_word;
 	cout << "Enter staff ID: ";
-	//cin >> ID;
-	while (!(cin >> ID))
+	while (!(getline(cin, ID)))
 		invalidInput();
 	for (int i = 0; i < n_o_s; i++)
 	{
@@ -56,14 +56,12 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 		{
 			cin.ignore(1000, '\n');
 			cout << "Enter password: ";
-			//getline(cin, pass_word);
 			while (!(getline(cin, pass_word)))
 				invalidInput();
 			while (pass_word != list_staffs[i]->pass_word)
 			{
 				int option = -1;
 				cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
-				//(cin >> option);
 				while (!(cin >> option) || option < 0 || option>1)
 					invalidInput();
 				switch (option)
@@ -72,7 +70,6 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 				{
 					cin.ignore(1000, '\n');
 					cout << "Re-enter password: ";
-					//getline(cin, pass_word);
 					while (!(getline(cin, pass_word)))
 						invalidInput();
 					break;
@@ -80,19 +77,14 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 				case 0:
 				{
 					cout << "Sign in failed\n";
-					//return staff;
 					return nullptr;
-					//break;
 				}
 				}
 			}
-			/*staff = list_staffs[i];
-			return staff;*/
 			return list_staffs[i];
 		}
 	}
 	return nullptr;
-	//return staff;
 }
 
 bool change_password_staff(staff* staff)
@@ -135,7 +127,6 @@ bool sign_out_staff()
 {
 	int option = -1;
 	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\nEnter option: ";
-	//cin >> option;
 	while (!(cin >> option) || option < 0 || option>1)
 		invalidInput();
 	switch (option)
@@ -143,12 +134,10 @@ bool sign_out_staff()
 	case 1:
 	{
 		return true;
-		//break;
 	}
 	case 0:
 	{
 		return false;
-		//break;
 	}
 	}
 	return true;
