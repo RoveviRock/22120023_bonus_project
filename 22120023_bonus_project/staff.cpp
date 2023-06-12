@@ -1,6 +1,6 @@
 #include "CMS.h"
 
-staff** init_list_staffs(int& n_o_s)
+staff** init_list_staffs(int& n_o_staffs)
 {
 	string count_line;
 	int count = 0;
@@ -16,14 +16,14 @@ staff** init_list_staffs(int& n_o_s)
 		while (getline(csv, count_line) && !csv.eof())
 			count++;
 	}
-	n_o_s = count - 1; // first line includes only the headings
-	staff** list_staffs = new staff * [n_o_s];
+	n_o_staffs = count - 1; // first line includes only the headings
+	staff** list_staffs = new staff * [n_o_staffs];
 	csv.clear(); // xoa co loi truoc khi su dung seekg(), vi viec doc den cuoi file co the gay ra co loi 'eofbit' va 'failbit'
 	csv.seekg(0, ios::beg);
 	string line;
 	char c;
 	getline(csv, line); // first line includes only the headings
-	for (int i = 0; i < n_o_s; i++)
+	for (int i = 0; i < n_o_staffs; i++)
 	{
 		list_staffs[i] = new staff;
 		getline(csv, list_staffs[i]->ID, ',');
@@ -41,7 +41,7 @@ staff** init_list_staffs(int& n_o_s)
 	return list_staffs;
 }
 
-staff* sign_in_staff(staff** list_staffs, int n_o_s)
+staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 {
 	staff* staff = nullptr;
 	bool check = false;
@@ -50,7 +50,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_s)
 	cout << "Enter staff ID: ";
 	while (!(getline(cin, ID)))
 		invalidInput();
-	for (int i = 0; i < n_o_s; i++)
+	for (int i = 0; i < n_o_staffs; i++)
 	{
 		if (ID == list_staffs[i]->ID)
 		{
@@ -157,9 +157,9 @@ void display_profile_staff(staff* staff)
 	display_staff(staff);
 }
 
-void display_list_staffs(staff** list_staffs, int n_o_s)
+void display_list_staffs(staff** list_staffs, int n_o_staffs)
 {
-	for (int i = 0; i < n_o_s; i++)
+	for (int i = 0; i < n_o_staffs; i++)
 	{
 		cout << "\nSTT: " << i + 1;
 		display_staff(list_staffs[i]);

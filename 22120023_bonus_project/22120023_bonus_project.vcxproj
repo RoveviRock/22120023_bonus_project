@@ -130,7 +130,7 @@
     <ClInclude Include="CMS.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="invalid_Input.cpp" />
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="staff.cpp" />
     <ClCompile Include="student.cpp">

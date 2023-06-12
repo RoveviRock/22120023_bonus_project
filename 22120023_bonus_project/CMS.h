@@ -3,6 +3,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
+#include <conio.h>
+#include <Windows.h>
 #include <string>
 #include <iomanip>
 #include <fstream>
@@ -59,19 +61,27 @@ typedef struct STUDENT
 //	//school_year 
 //} course;
 
+//COMMON
+void GotoXY(int x, int y);
+void textColor(int color);
+void display_frame();
 void invalidInput();
+bool sign_out();
 
 //STAFF
-staff** init_list_staffs(int& n_o_s);
-staff* sign_in_staff(staff** list_staffs, int n_o_s);
+staff** init_list_staffs(int& n_o_staffs);
+staff* sign_in_staff(staff** list_staffs, int n_o_staffs);
 bool change_password_staff(staff* staff);
-bool sign_out_staff();
+//bool sign_out_staff();
 void display_staff(staff* staff);
 void display_profile_staff(staff* staff);
-void display_list_staffs(staff** list_staffs, int n_o_s);
+void display_list_staffs(staff** list_staffs, int n_o_staffs);
 
 //STUDENT
 student** init_list_students(int& n_o_students);
+student* sign_in_student(student** list_students, int n_o_students);
+bool change_password_student(student* student);
+//bool sign_out_student();
 void display_student(student* student);
 void display_list_students(student** list_students, int n_o_students);
 
