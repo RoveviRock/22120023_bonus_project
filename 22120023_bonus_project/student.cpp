@@ -93,40 +93,6 @@ student* sign_in_student(student** list_students, int n_o_students)
 		}
 		return list_students[pos];
 	}
-	/*for (int i = 0; i < n_o_students; i++)
-	{
-		if (ID == list_students[i]->student_ID)
-		{
-			cin.ignore(1000, '\n');
-			cout << "Enter password: ";
-			while (!(getline(cin, pass_word)))
-				invalidInput();
-			while (pass_word != list_students[i]->pass_word)
-			{
-				int option = -1;
-				cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
-				while (!(cin >> option) || option < 0 || option>1)
-					invalidInput();
-				switch (option)
-				{
-				case 1:
-				{
-					cin.ignore(1000, '\n');
-					cout << "Re-enter password: ";
-					while (!(getline(cin, pass_word)))
-						invalidInput();
-					break;
-				}
-				case 0:
-				{
-					cout << "Sign in failed\n";
-					return nullptr;
-				}
-				}
-			}
-			return list_students[i];
-		}
-	}*/
 	return nullptr;
 }
 

@@ -45,21 +45,28 @@ typedef struct STUDENT
 	string pass_word;
 } student;
 
-//typedef struct SCHOOL_YEAR
-//{
-//	int y = 0; // start_year
-//	int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
-//} school_year;
-//
-//typedef struct COURSE
-//{
-//	int ID = 0;
-//	string course_name;
-//	string class_name;
-//	staff staff_name;
-//	int num_of_credits = 0;
-//	//school_year 
-//} course;
+typedef struct SCHOOL_YEAR
+{
+	//int y = 0; // start_year
+	//int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
+	int y_start = 0;
+	int y_end = 0;
+} school_year;
+
+typedef struct SEMESTER
+{
+	int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
+} semester;
+
+typedef struct COURSE
+{
+	int ID = 0;
+	string course_name;
+	string class_name;
+	staff staff_name;
+	int num_of_credits = 0;
+	//school_year 
+} course;
 
 //COMMON
 void GotoXY(int x, int y);
@@ -72,16 +79,16 @@ bool sign_out();
 staff** init_list_staffs(int& n_o_staffs);
 staff* sign_in_staff(staff** list_staffs, int n_o_staffs);
 bool change_password_staff(staff* staff);
-//bool sign_out_staff();
 void display_staff(staff* staff);
 void display_profile_staff(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_staffs);
+school_year create_school_year();
+//void create_class();
 
 //STUDENT
 student** init_list_students(int& n_o_students);
 student* sign_in_student(student** list_students, int n_o_students);
 bool change_password_student(student* student);
-//bool sign_out_student();
 void display_student(student* student);
 void display_list_students(student** list_students, int n_o_students);
 

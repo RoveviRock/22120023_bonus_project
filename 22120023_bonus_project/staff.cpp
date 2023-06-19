@@ -41,16 +41,59 @@ staff** init_list_staffs(int& n_o_staffs)
 	return list_staffs;
 }
 
+int find_pos_staff_ID(staff** list_staffs, string ID, int a, int b)	//a is the first element's position, b is the last element's position
+{
+	if (ID<list_staffs[a]->ID || ID>list_staffs[b]->ID)
+		return -1;
+	int mid = int((a + b) / 2);
+	if (ID == list_staffs[mid]->ID)
+		return mid;
+	else if (ID < list_staffs[mid]->ID)
+		return find_pos_staff_ID(list_staffs, ID, a, mid - 1);
+	else
+		return find_pos_staff_ID(list_staffs, ID, mid + 1, b);
+}
+
 staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 {
 	staff* staff = nullptr;
-	bool check = false;
 	string ID;
 	string pass_word;
 	cout << "Enter staff ID: ";
 	while (!(getline(cin, ID)))
 		invalidInput();
-	for (int i = 0; i < n_o_staffs; i++)
+	int pos = find_pos_staff_ID(list_staffs, ID, 0, n_o_staffs - 1);
+	if (pos != -1)
+	{
+		cout << "Enter password: ";
+		while (!(getline(cin, pass_word)))
+			invalidInput();
+		while (pass_word != list_staffs[pos]->pass_word)
+		{
+			int option = -1;
+			cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
+			while (!(cin >> option) || option < 0 || option>1)
+				invalidInput();
+			switch (option)
+			{
+			case 1:
+			{
+				cin.ignore(1000, '\n');
+				cout << "Re-enter password: ";
+				while (!(getline(cin, pass_word)))
+					invalidInput();
+				break;
+			}
+			case 0:
+			{
+				cout << "Sign in failed\n";
+				return nullptr;
+			}
+			}
+		}
+		return list_staffs[pos];
+	}
+	/*for (int i = 0; i < n_o_staffs; i++)
 	{
 		if (ID == list_staffs[i]->ID)
 		{
@@ -83,7 +126,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 			}
 			return list_staffs[i];
 		}
-	}
+	}*/
 	return nullptr;
 }
 
@@ -165,3 +208,18 @@ void display_list_staffs(staff** list_staffs, int n_o_staffs)
 		display_staff(list_staffs[i]);
 	}
 }
+
+school_year create_school_year()
+{
+	//cout << "Number of classes to create: ";
+	//int n_o_sch_y;	// num of school years
+	//cin >> n_o_sch_y;
+	school_year sch_y;
+	cout << "Enter year start: ";
+	while (!(cin >> sch_y.y_start) || sch_y.y_start < 1000)
+		invalidInput();
+	sch_y.y_end = sch_y.y_start + 1;
+	return sch_y;
+}
+
+//void create_class();
