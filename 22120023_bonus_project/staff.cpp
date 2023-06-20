@@ -216,9 +216,9 @@ school_year create_school_year()
 	//cin >> n_o_sch_y;
 	school_year sch_y;
 	cout << "Enter year start: ";
-	while (!(cin >> sch_y.y_start) || sch_y.y_start < 1000)
+	while (!(cin >> sch_y.start_y) || sch_y.start_y < 1000)
 		invalidInput();
-	sch_y.y_end = sch_y.y_start + 1;
+	sch_y.end_y = sch_y.start_y + 1;
 	return sch_y;
 }
 

@@ -45,18 +45,19 @@ typedef struct STUDENT
 	string pass_word;
 } student;
 
+typedef struct CLASSES
+{
+	string cla;	//class
+	student** list_stu_of_class;
+} classes;
+
 typedef struct SCHOOL_YEAR
 {
 	//int y = 0; // start_year
 	//int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
-	int y_start = 0;
-	int y_end = 0;
+	int start_y = 0;
+	int end_y = 0;
 } school_year;
-
-typedef struct SEMESTER
-{
-	int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
-} semester;
 
 typedef struct COURSE
 {
@@ -67,6 +68,12 @@ typedef struct COURSE
 	int num_of_credits = 0;
 	//school_year 
 } course;
+
+typedef struct SEMESTER
+{
+	school_year sch_y;	//school_year
+	int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
+} semester;
 
 //COMMON
 void GotoXY(int x, int y);
