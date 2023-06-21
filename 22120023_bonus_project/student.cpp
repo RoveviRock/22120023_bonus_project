@@ -1,11 +1,11 @@
 #include "CMS.h"
 
-student** init_list_students(int& n_o_students)
+student** init_list_students(string file_name, int& n_o_students)
 {
 	string count_line;
 	int count = 0;
 	fstream csv;
-	csv.open("student.txt", ios_base::in);
+	csv.open(file_name, ios_base::in);
 	if (!csv)
 	{
 		cout << "\nMo file CSV that bai!\n";
@@ -134,12 +134,31 @@ bool change_password_student(student* student)
 
 void display_student(student* student)
 {
-	cout << "\nStudent ID: " << student->student_ID;
+	/*cout << "\nStudent ID: " << student->student_ID;
 	cout << "\nFirst Name: " << student->first_name;
 	cout << "\nLast Name: " << student->last_name;
 	cout << "\nGender: " << student->gender;
 	cout << "\nDay of birth: " << student->d_o_b.d << "/" << student->d_o_b.m << "/" << student->d_o_b.y;
-	cout << "\nSocial ID: " << student->social_ID << endl;
+	cout << "\nSocial ID: " << student->social_ID << endl;*/
+	cout << left << setw(5) << " STT" << char(179) << setw(14) << "  Student ID" << char(179) << setw(20) << "     First name" << char(179) << setw(10) << "   Name" << char(179) << setw(10) << "  Gender" << char(179) << setw(15) << " Date of birth";
+	cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(14) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(20) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(10) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(10) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(15) << setfill(char(196)) << char(196);
+	cout << endl << setfill(' ');
+	for (int i = 0; i < 10; i++)
+	{
+		string stt = to_string(i + 1);
+		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
+		cout << setw(14) << 100000 + i << char(179);
+		cout << setw(20) << student->first_name << char(179);
+		cout << setw(10) << student->last_name << char(179);
+		cout << setw(10) << student->gender << char(179);
+		cout << setw(15) << student->d_o_b.d << "/" << student->d_o_b.m << "/" << student->d_o_b.y;
+		cout << endl;
+	}
 }
 
 void display_list_students(student** list_students, int n_o_students)

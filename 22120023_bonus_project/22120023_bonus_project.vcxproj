@@ -138,6 +138,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="22APCS1.txt" />
+    <Text Include="22CTT2.txt" />
     <Text Include="staff.txt" />
     <Text Include="student.txt" />
   </ItemGroup>

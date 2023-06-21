@@ -45,12 +45,6 @@ typedef struct STUDENT
 	string pass_word;
 } student;
 
-typedef struct CLASSES
-{
-	string cla;	//class
-	student** list_stu_of_class;
-} classes;
-
 typedef struct SCHOOL_YEAR
 {
 	//int y = 0; // start_year
@@ -58,6 +52,14 @@ typedef struct SCHOOL_YEAR
 	int start_y = 0;
 	int end_y = 0;
 } school_year;
+
+typedef struct CLASSES
+{
+	school_year sch_y;
+	string name_cla;	//class
+	int n_o_stu_in_cla = 0;	// num of students in class
+	student** list_stu_of_class;
+} classes;
 
 typedef struct COURSE
 {
@@ -90,10 +92,10 @@ void display_staff(staff* staff);
 void display_profile_staff(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
-//void create_class();
+classes** create_classes(school_year sch_y, int& n_o_cla);
 
 //STUDENT
-student** init_list_students(int& n_o_students);
+student** init_list_students(string file_name, int& n_o_students);
 student* sign_in_student(student** list_students, int n_o_students);
 bool change_password_student(student* student);
 void display_student(student* student);

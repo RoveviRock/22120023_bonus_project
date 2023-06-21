@@ -211,15 +211,34 @@ void display_list_staffs(staff** list_staffs, int n_o_staffs)
 
 school_year create_school_year()
 {
-	//cout << "Number of classes to create: ";
-	//int n_o_sch_y;	// num of school years
-	//cin >> n_o_sch_y;
 	school_year sch_y;
-	cout << "Enter year start: ";
+	cout << "Enter start year of school year: ";
 	while (!(cin >> sch_y.start_y) || sch_y.start_y < 1000)
 		invalidInput();
 	sch_y.end_y = sch_y.start_y + 1;
 	return sch_y;
 }
 
-//void create_class();
+classes** create_classes(school_year sch_y, int& n_o_cla)
+{
+	cout << "Enter number of classes: ";
+	while (!(cin >> n_o_cla) || n_o_cla < 1)
+		invalidInput();
+	classes** list_classes;
+	list_classes = new classes * [n_o_cla];
+	int i = 0;
+	cin.ignore(1000, '\n');
+	while (i < n_o_cla)
+	{
+		list_classes[i] = new classes;
+		list_classes[i]->sch_y = sch_y;
+		cout << "Enter name of class " << i << "(APCS1/APCS2/CTT2/CTT3/CLC1/CLC2/VP/...): ";
+		while (!(getline(cin, list_classes[i]->name_cla)))
+			invalidInput();
+		list_classes[i]->name_cla = to_string(sch_y.start_y % 100) + list_classes[i]->name_cla;
+		string file_name = "classes member list//" + list_classes[i]->name_cla + ".txt";
+		list_classes[i]->list_stu_of_class = init_list_students(file_name, list_classes[i]->n_o_stu_in_cla);
+		i++;
+	}
+	return list_classes;
+}

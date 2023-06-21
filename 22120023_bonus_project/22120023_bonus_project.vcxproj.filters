@@ -43,5 +43,11 @@
     <Text Include="student.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="22CTT2.txt">
+      <Filter>Resource Files\classes member list</Filter>
+    </Text>
+    <Text Include="22APCS1.txt">
+      <Filter>Resource Files\classes member list</Filter>
+    </Text>
   </ItemGroup>
 </Project>
