@@ -91,7 +91,12 @@ bool sign_out()
 	return true;
 }
 
-void menu_common()
+void menu_common_1()
+{
+	cout << "You are a staff or a student?\nType 1: Staff.\nType 2: Student.\nType 0: Exit the system.\n\nPlease type: ";
+}
+
+void menu_common_2()
 {
 	cout << "\nContinue or sign out?\nType 1: Continue.\nType 0: Sign out.\n\nEnter option: ";
 }

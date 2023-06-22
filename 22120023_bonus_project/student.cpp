@@ -132,14 +132,18 @@ bool change_password_student(student* student)
 	return true;
 }
 
-void display_student_frame(student* student)
+void display_student_personal(student* student)
 {
-	/*cout << "\nStudent ID: " << student->student_ID;
+	cout << "\nStudent ID: " << student->student_ID;
 	cout << "\nFirst Name: " << student->first_name;
 	cout << "\nLast Name: " << student->last_name;
 	cout << "\nGender: " << student->gender;
 	cout << "\nDay of birth: " << student->d_o_b.d << "/" << student->d_o_b.m << "/" << student->d_o_b.y;
-	cout << "\nSocial ID: " << student->social_ID << endl;*/
+	cout << "\nSocial ID: " << student->social_ID << endl;
+}
+
+void display_student_frame(student* student)
+{
 	cout << setw(14) << student->student_ID << char(179);
 	cout << setw(20) << student->first_name << char(179);
 	cout << setw(10) << student->last_name << char(179);
@@ -164,5 +168,87 @@ void display_list_students(student** list_students, int n_o_students)
 		string stt = to_string(i + 1);
 		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
 		display_student_frame(list_students[i]);
+	}
+}
+
+void menu_student_1()
+{
+	cout << "\nType 1: Display personal profile information.";
+	cout << "\nType 2: Change password.";
+	cout << "\nType 3: Display course list.";
+	cout << "\nType 4: Display transcript.";
+	cout << "\nType 5: Exit the system.";
+	cout << "\nType 0: Sign out.\n\nEnter option: ";
+}
+
+void working_console_student(student** list_students, int n_o_students, int& opt)
+{
+	student* student = sign_in_student(list_students, n_o_students);
+	if (student != nullptr)
+	{
+		system("cls");
+		display_frame();
+		cout << "Login successful";
+		int option = -1;
+		while (option != 0)
+		{
+			menu_student_1();
+			while (!(cin >> option) || option < 0 || option>4)
+				invalidInput();
+			switch (option)
+			{
+			case 1:
+			{
+				system("cls");
+				display_frame();
+				cout << "Personal profile information: ";
+				display_student_personal(student);
+				break;
+			}
+			case 2:
+			{
+				system("cls");
+				display_frame();
+				if (change_password_student(student))
+				{
+					system("cls");
+					display_frame();
+					cout << "Password change successful";
+				}
+				break;
+			}
+			case 3:
+			{
+				break;
+			}
+			case 4:
+			{
+				break;
+			}
+			case 5:
+			{
+				option = 0;
+				opt = 0;
+				break;
+			}
+			case 0:
+			{
+				if (!sign_out())
+					option = -1;
+				break;
+			}
+			}
+			if (option != -1 && option != 0)
+			{
+				menu_common_2();
+				while (!(cin >> option) || option < 0 || option>1)
+					invalidInput();
+				if (option == 0)
+					if (!sign_out())
+						option = -1;
+			}
+			system("cls");
+			display_frame();
+		}
 	}
 }

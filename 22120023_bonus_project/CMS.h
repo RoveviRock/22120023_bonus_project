@@ -47,8 +47,6 @@ typedef struct STUDENT
 
 typedef struct SCHOOL_YEAR
 {
-	//int y = 0; // start_year
-	//int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
 	int start_y = 0;
 	int end_y = 0;
 } school_year;
@@ -84,7 +82,8 @@ void display_frame();
 //void cleanConsole();
 void invalidInput();
 bool sign_out();
-void menu_common();
+void menu_common_1();
+void menu_common_2();
 
 //STAFF
 staff** init_list_staffs(int& n_o_staffs);
@@ -96,14 +95,17 @@ void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
 classes** create_classes(school_year sch_y, int& n_o_cla);
 void menu_staff_1();
-void working_console_staff(staff** list_staffs, int n_o_staffs);
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt);
 
 //STUDENT
 student** init_list_students(string file_name, int& n_o_students);
 student* sign_in_student(student** list_students, int n_o_students);
 bool change_password_student(student* student);
+void display_student_personal(student* student);
 void display_student_frame(student* student);
 void display_list_students(student** list_students, int n_o_students);
+void menu_student_1();
+void working_console_student(student** list_students, int n_o_students, int& opt);
 
 #endif // !_course_management_system_h_
 

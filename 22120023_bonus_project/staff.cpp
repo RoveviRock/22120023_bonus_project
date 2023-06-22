@@ -27,8 +27,6 @@ staff** init_list_staffs(int& n_o_staffs)
 	{
 		list_staffs[i] = new staff;
 		getline(csv, list_staffs[i]->ID, ',');
-		/*csv >> list_staffs[i]->ID;
-		csv >> c;*/ // read ','
 		getline(csv, list_staffs[i]->name, ',');
 		getline(csv, list_staffs[i]->gender, ',');
 		csv >> list_staffs[i]->d_o_b.d;
@@ -218,10 +216,11 @@ void menu_staff_1()
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Management school year.";
+	cout << "\nType 4: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
-void working_console_staff(staff** list_staffs, int n_o_staffs)
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt)
 {
 	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
 	if (staff != nullptr)
@@ -233,7 +232,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs)
 		while (option != 0)
 		{
 			menu_staff_1();
-			while (!(cin >> option) || option < 0 || option>3)
+			while (!(cin >> option) || option < 0 || option>4)
 				invalidInput();
 			switch (option)
 			{
@@ -274,6 +273,12 @@ void working_console_staff(staff** list_staffs, int n_o_staffs)
 				}
 				break;
 			}
+			case 4:
+			{
+				option = 0;
+				opt = 0;
+				break;
+			}
 			case 0:
 			{
 				if (!sign_out())
@@ -283,7 +288,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs)
 			}
 			if (option != -1 && option != 0)
 			{
-				menu_common();
+				menu_common_2();
 				while (!(cin >> option) || option < 0 || option>1)
 					invalidInput();
 				if (option == 0)
