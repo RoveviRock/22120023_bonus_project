@@ -81,8 +81,10 @@ typedef struct SEMESTER
 void GotoXY(int x, int y);
 void textColor(int color);
 void display_frame();
+//void cleanConsole();
 void invalidInput();
 bool sign_out();
+void menu_common();
 
 //STAFF
 staff** init_list_staffs(int& n_o_staffs);
@@ -93,12 +95,14 @@ void display_profile_staff(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
 classes** create_classes(school_year sch_y, int& n_o_cla);
+void menu_staff_1();
+void working_console_staff(staff** list_staffs, int n_o_staffs);
 
 //STUDENT
 student** init_list_students(string file_name, int& n_o_students);
 student* sign_in_student(student** list_students, int n_o_students);
 bool change_password_student(student* student);
-void display_student(student* student);
+void display_student_frame(student* student);
 void display_list_students(student** list_students, int n_o_students);
 
 #endif // !_course_management_system_h_

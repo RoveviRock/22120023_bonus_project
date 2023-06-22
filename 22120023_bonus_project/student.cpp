@@ -132,7 +132,7 @@ bool change_password_student(student* student)
 	return true;
 }
 
-void display_student(student* student)
+void display_student_frame(student* student)
 {
 	/*cout << "\nStudent ID: " << student->student_ID;
 	cout << "\nFirst Name: " << student->first_name;
@@ -140,6 +140,16 @@ void display_student(student* student)
 	cout << "\nGender: " << student->gender;
 	cout << "\nDay of birth: " << student->d_o_b.d << "/" << student->d_o_b.m << "/" << student->d_o_b.y;
 	cout << "\nSocial ID: " << student->social_ID << endl;*/
+	cout << setw(14) << student->student_ID << char(179);
+	cout << setw(20) << student->first_name << char(179);
+	cout << setw(10) << student->last_name << char(179);
+	cout << setw(10) << student->gender << char(179);
+	cout << right << setw(2) << student->d_o_b.d << "/" << setw(2) << student->d_o_b.m << "/"<< left << setw(9) << student->d_o_b.y;
+	cout << endl;
+}
+
+void display_list_students(student** list_students, int n_o_students)
+{
 	cout << left << setw(5) << " STT" << char(179) << setw(14) << "  Student ID" << char(179) << setw(20) << "     First name" << char(179) << setw(10) << "   Name" << char(179) << setw(10) << "  Gender" << char(179) << setw(15) << " Date of birth";
 	cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
 	cout << setw(14) << setfill(char(196)) << char(196) << char(197);
@@ -148,24 +158,11 @@ void display_student(student* student)
 	cout << setw(10) << setfill(char(196)) << char(196) << char(197);
 	cout << setw(15) << setfill(char(196)) << char(196);
 	cout << endl << setfill(' ');
-	for (int i = 0; i < 10; i++)
-	{
-		string stt = to_string(i + 1);
-		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
-		cout << setw(14) << 100000 + i << char(179);
-		cout << setw(20) << student->first_name << char(179);
-		cout << setw(10) << student->last_name << char(179);
-		cout << setw(10) << student->gender << char(179);
-		cout << setw(15) << student->d_o_b.d << "/" << student->d_o_b.m << "/" << student->d_o_b.y;
-		cout << endl;
-	}
-}
-
-void display_list_students(student** list_students, int n_o_students)
-{
 	for (int i = 0; i < n_o_students; i++)
 	{
-		cout << "\nSTT: " << i + 1;
-		display_student(list_students[i]);
+		//cout << "\nSTT: " << i + 1;
+		string stt = to_string(i + 1);
+		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
+		display_student_frame(list_students[i]);
 	}
 }

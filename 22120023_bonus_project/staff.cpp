@@ -71,7 +71,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 		while (pass_word != list_staffs[pos]->pass_word)
 		{
 			int option = -1;
-			cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
+			cout << "\nPassword is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\n\nEnter option: ";
 			while (!(cin >> option) || option < 0 || option>1)
 				invalidInput();
 			switch (option)
@@ -86,6 +86,8 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 			}
 			case 0:
 			{
+				system("cls");
+				display_frame();
 				cout << "Sign in failed\n";
 				return nullptr;
 			}
@@ -93,40 +95,6 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 		}
 		return list_staffs[pos];
 	}
-	/*for (int i = 0; i < n_o_staffs; i++)
-	{
-		if (ID == list_staffs[i]->ID)
-		{
-			cin.ignore(1000, '\n');
-			cout << "Enter password: ";
-			while (!(getline(cin, pass_word)))
-				invalidInput();
-			while (pass_word != list_staffs[i]->pass_word)
-			{
-				int option = -1;
-				cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
-				while (!(cin >> option) || option < 0 || option>1)
-					invalidInput();
-				switch (option)
-				{
-				case 1:
-				{
-					cin.ignore(1000, '\n');
-					cout << "Re-enter password: ";
-					while (!(getline(cin, pass_word)))
-						invalidInput();
-					break;
-				}
-				case 0:
-				{
-					cout << "Sign in failed\n";
-					return nullptr;
-				}
-				}
-			}
-			return list_staffs[i];
-		}
-	}*/
 	return nullptr;
 }
 
@@ -140,7 +108,7 @@ bool change_password_staff(staff* staff)
 	while (pass_word != staff->pass_word)
 	{
 		int option = -1;
-		cout << "Old password is not correct\nType 1: Re-enter old password.\nType 0: Forgot old password.\nEnter option: ";
+		cout << "\nOld password is not correct\nType 1: Re-enter old password.\nType 0: Forgot old password.\n\nEnter option: ";
 		while (!(cin >> option) || option < 0 || option>1)
 			invalidInput();
 		switch (option)
@@ -155,6 +123,8 @@ bool change_password_staff(staff* staff)
 		}
 		case 0:
 		{
+			system("cls");
+			display_frame();
 			cout << "Password change failed\n";
 			return false;
 		}
@@ -169,7 +139,7 @@ bool change_password_staff(staff* staff)
 bool sign_out_staff()
 {
 	int option = -1;
-	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\nEnter option: ";
+	cout << "\nAre you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\n\nEnter option: ";
 	while (!(cin >> option) || option < 0 || option>1)
 		invalidInput();
 	switch (option)
@@ -232,13 +202,96 @@ classes** create_classes(school_year sch_y, int& n_o_cla)
 	{
 		list_classes[i] = new classes;
 		list_classes[i]->sch_y = sch_y;
-		cout << "Enter name of class " << i << "(APCS1/APCS2/CTT2/CTT3/CLC1/CLC2/VP/...): ";
+		cout << "Enter name of class " << i + 1 << "(APCS1/APCS2/CTT2/CTT3/CLC1/CLC2/VP/...): ";
 		while (!(getline(cin, list_classes[i]->name_cla)))
 			invalidInput();
 		list_classes[i]->name_cla = to_string(sch_y.start_y % 100) + list_classes[i]->name_cla;
-		string file_name = "classes member list//" + list_classes[i]->name_cla + ".txt";
+		string file_name = list_classes[i]->name_cla + ".txt";
 		list_classes[i]->list_stu_of_class = init_list_students(file_name, list_classes[i]->n_o_stu_in_cla);
 		i++;
 	}
 	return list_classes;
+}
+
+void menu_staff_1()
+{
+	cout << "\nType 1: Display personal profile information.";
+	cout << "\nType 2: Change password.";
+	cout << "\nType 3: Management school year.";
+	cout << "\nType 0: Sign out.\n\nEnter option: ";
+}
+
+void working_console_staff(staff** list_staffs, int n_o_staffs)
+{
+	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
+	if (staff != nullptr)
+	{
+		system("cls");
+		display_frame();
+		cout << "Login successful";
+		int option = -1;
+		while (option != 0)
+		{
+			menu_staff_1();
+			while (!(cin >> option) || option < 0 || option>3)
+				invalidInput();
+			switch (option)
+			{
+			case 1:
+			{
+				system("cls");
+				display_frame();
+				cout << "Personal profile information: ";
+				display_staff(staff);
+				break;
+			}
+			case 2:
+			{
+				system("cls");
+				display_frame();
+				if (change_password_staff(staff))
+				{
+					system("cls");
+					display_frame();
+					cout << "Password change successful";
+				}
+				break;
+			}
+			case 3:
+			{
+				system("cls");
+				display_frame();
+				school_year sch_y = create_school_year();
+				int n_o_cla = 0;
+				classes** list_classes = create_classes(sch_y, n_o_cla);
+				system("cls");
+				display_frame();
+				for (int i = 0; i < n_o_cla; i++)
+				{
+					cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
+					display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
+					cout << "\n\n";
+				}
+				break;
+			}
+			case 0:
+			{
+				if (!sign_out())
+					option = -1;
+				break;
+			}
+			}
+			if (option != -1 && option != 0)
+			{
+				menu_common();
+				while (!(cin >> option) || option < 0 || option>1)
+					invalidInput();
+				if (option == 0)
+					if (!sign_out())
+						option = -1;
+			}
+			system("cls");
+			display_frame();
+		}
+	}
 }

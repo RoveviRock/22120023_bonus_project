@@ -54,6 +54,15 @@ void display_frame()
 	textColor(7);
 }
 
+//void cleanConsole()
+//{
+//	HANDLE hOut;
+//	COORD Position;
+//	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+//	Position.X = 0;
+//	Position.Y = 0;
+//	SetConsoleCursorPosition(hOut, Position);
+//}
 
 void invalidInput()
 {
@@ -65,7 +74,7 @@ void invalidInput()
 bool sign_out()
 {
 	int option = -1;
-	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\nEnter option: ";
+	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\n\nEnter option: ";
 	while (!(cin >> option) || option < 0 || option>1)
 		invalidInput();
 	switch (option)
@@ -80,4 +89,9 @@ bool sign_out()
 	}
 	}
 	return true;
+}
+
+void menu_common()
+{
+	cout << "\nContinue or sign out?\nType 1: Continue.\nType 0: Sign out.\n\nEnter option: ";
 }
