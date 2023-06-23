@@ -215,12 +215,196 @@ void menu_staff_1()
 {
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
-	cout << "\nType 3: Management school year.";
-	cout << "\nType 4: Exit the system.";
+	cout << "\nType 3: Create a school year and several classes.";
+	cout << "\nType 4: Management a semester.";
+	cout << "\nType 5: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt)
+void menu_staff_2()
+{
+	cout << "\nType 1: Create current semester.";
+	cout << "\nType 2: Add a course.";
+	cout << "\nType 3: Display the list of courses.";
+	cout << "\nType 4: Update course information.";
+	cout << "\nType 5: Add a student to the course.";
+	cout << "\nType 6: Remove a student from the course.";
+	cout << "\nType 7: Delete a course.";
+	cout << "\nType 8: Back to main menu.";
+	cout << "\nType 9: Exit the system.";
+	cout << "\nType 0: Sign out.\n\nEnter option: ";
+}
+
+course* create_course()
+{
+	cin.ignore(1000, '\n');
+	course* cou = new course;
+	cout << "Enter course ID: ";
+	while (!(getline(cin, cou->ID)))
+		invalidInput();
+	cout << "Enter course name: ";
+	while (!(getline(cin, cou->course_name)))
+		invalidInput();
+	cout << "Enter class name: ";
+	while (!(getline(cin, cou->class_name)))
+		invalidInput();
+	cout << "Enter teacher name: ";
+	while (!(getline(cin, cou->staff_name.name)))
+		invalidInput();
+	cout << "Enter number of credits: ";
+	while (!(cin >> cou->num_of_credits) || cou->num_of_credits < 1)
+		invalidInput();
+	string file_name = cou->ID + ".txt";
+	cou->list_stu_of_cou = init_list_students(file_name, cou->n_o_stu_in_cou);
+	return cou;
+}
+
+void display_course(course* course)
+{
+	cout << "\nCourse ID: " << course->ID;
+	cout << "\nCourse name: " << course->course_name;
+	cout << "\nClass name: " << course->class_name;
+	cout << "\nTeacher name: " << course->staff_name.name;
+	cout << "\nNumber of credits: " << course->num_of_credits;
+	cout << "\nCourse " << course->course_name << " list of students:\n";
+	display_list_students(course->list_stu_of_cou, course->n_o_stu_in_cou);
+	cout << "\n\n";
+}
+
+void display_list_courses(course** list_courses, int n_o_cou)
+{
+	for (int i = 0; i < n_o_cou; i++)
+	{
+		cout << "\nCourse " << i + 1 << ":";
+		display_course(list_courses[i]);
+		cout << endl;
+	}
+}
+
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem)
+{
+	system("cls");
+	display_frame();
+	switch (option_2)
+	{
+	case 1:
+	{
+		if (sch_y.start_y == 0)
+			cout << "School year has not been created\nPlease continue, type 8 to back to main menu then type 3 to create a school year\n";
+		else
+		{
+			cout << "Semester 1(Fall) or 2(Summer) or 3(Autumn)?\n\nType 1/2/3: ";
+			while (!(cin >> sem.semester) || sem.semester < 1 || sem.semester > 3)
+				invalidInput();
+			cout << "\nThis semester belongs to the school year " << sch_y.start_y << "-" << sch_y.end_y << endl;
+			cout << "Enter start day of this semester (dd/mm/yyyy) (standard input required): ";
+			while (!(cin >> sem.start_d >> sem.start_m >> sem.start_y))
+				invalidInput();
+			cout << "Enter end day of this semester (dd/mm/yyyy) (standard input required): ";
+			while (!(cin >> sem.end_d >> sem.end_m >> sem.end_y))
+				invalidInput();
+			sem.list_courses = nullptr;
+		}
+		break;
+	}
+	case 2:
+	{
+		if (sem.semester != 1 && sem.semester != 2 && sem.semester != 3)
+			cout << "Semester has not been created\nPlease continue and type 1 to create a semester\n";
+		else
+		{
+			if (sem.n_o_cou == 0)
+			{
+				sem.n_o_cou++;
+				sem.list_courses = new course * [sem.n_o_cou];
+				/*cout << "Enter course ID: ";
+				while (!(getline(cin, sem.list_courses[0]->ID)))
+					invalidInput();
+				cout << "Enter course name: ";
+				while (!(getline(cin, sem.list_courses[0]->course_name)))
+					invalidInput();
+				cout << "Enter class name: ";
+				while (!(getline(cin, sem.list_courses[0]->class_name)))
+					invalidInput();
+				cout << "Enter teacher name: ";
+				while (!(getline(cin, sem.list_courses[0]->staff_name.name)))
+					invalidInput();
+				cout << "Number of credits: ";
+				while (!(cin >> sem.list_courses[0]->num_of_credits) || sem.list_courses[0]->num_of_credits < 1)
+					invalidInput();*/
+				sem.list_courses[0] = create_course();
+			}
+			else
+			{
+				sem.n_o_cou++;
+				course** new_list_courses = new course * [sem.n_o_cou];
+				copy(sem.list_courses, sem.list_courses + sem.n_o_cou - 1, new_list_courses);
+				new_list_courses[sem.n_o_cou - 1] = create_course();
+				delete[] sem.list_courses;
+				sem.list_courses = new_list_courses;
+			}
+		}
+		break;
+	}
+	case 3:
+	{
+		display_list_courses(sem.list_courses, sem.n_o_cou);
+		break;
+	}
+	case 4:
+	{
+		break;
+	}
+	case 5:
+	{
+		break;
+	}
+	case 6:
+	{
+		break;
+	}
+	case 7:
+	{
+		break;
+	}
+	case 8:
+	{
+		option_2 = 0;
+		option = -1;
+		break;
+	}
+	case 9:
+	{
+		option_2 = 0;
+		option = 0;
+		opt = 0;
+		break;
+	}
+	case 0:
+	{
+		if (!sign_out())
+			option_2 = -1;
+		break;
+	}
+	}
+	if (option_2 != -1 && option_2 != 0)
+	{
+		menu_common_2();
+		while (!(cin >> option_2) || option_2 < 0 || option_2>1)
+			invalidInput();
+		if (option_2 == 0)
+		{
+			if (!sign_out())
+				option_2 = -1;
+			else
+				option = 0;
+		}
+	}
+	system("cls");
+	display_frame();
+}
+
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem)
 {
 	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
 	if (staff != nullptr)
@@ -232,7 +416,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt)
 		while (option != 0)
 		{
 			menu_staff_1();
-			while (!(cin >> option) || option < 0 || option>4)
+			while (!(cin >> option) || option < 0 || option>5)
 				invalidInput();
 			switch (option)
 			{
@@ -260,20 +444,39 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt)
 			{
 				system("cls");
 				display_frame();
-				school_year sch_y = create_school_year();
-				int n_o_cla = 0;
-				classes** list_classes = create_classes(sch_y, n_o_cla);
-				system("cls");
-				display_frame();
-				for (int i = 0; i < n_o_cla; i++)
+				if (sch_y.start_y != 0)
+					cout << "School year has been created\n";
+				else
 				{
-					cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
-					display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
-					cout << "\n\n";
+					sch_y = create_school_year();
+					int n_o_cla = 0;
+					list_classes = create_classes(sch_y, n_o_cla);
+					system("cls");
+					display_frame();
+					for (int i = 0; i < n_o_cla; i++)
+					{
+						cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
+						display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
+						cout << "\n\n";
+					}
 				}
 				break;
 			}
 			case 4:
+			{
+				system("cls");
+				display_frame();
+				int option_2 = -1;
+				while (option_2 != 0)
+				{
+					menu_staff_2();
+					while (!(cin >> option_2) || option_2 < 0 || option_2>9)
+						invalidInput();
+					management_semester(option, option_2, opt, sch_y, list_classes, sem);
+				}
+				break;
+			}
+			case 5:
 			{
 				option = 0;
 				opt = 0;

@@ -7,6 +7,9 @@ int main(int argc, const char* argv[])
 	staff** list_staffs = init_list_staffs(n_o_staffs);
 	int n_o_students = 0;
 	student** list_students = init_list_students("student.txt", n_o_students);
+	school_year sch_y;
+	classes** list_classes = nullptr;
+	semester sem;
 	int opt = -1;	//option
 	while(opt != 0)
 	{
@@ -20,7 +23,7 @@ int main(int argc, const char* argv[])
 		{
 		case 1:
 		{
-			working_console_staff(list_staffs, n_o_staffs, opt);
+			working_console_staff(list_staffs, n_o_staffs, opt, sch_y, list_classes, sem);
 			break;
 		}
 		case 2:
@@ -36,7 +39,6 @@ int main(int argc, const char* argv[])
 		}
 		}
 	}
-	
 	system("pause");
 	return 0;
 }

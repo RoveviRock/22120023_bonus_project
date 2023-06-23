@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,12 +19,6 @@ typedef struct DATE_OF_BIRTH
 {
 	int d = 0, m = 0, y = 0;
 } birth;
-
-//typedef struct SESSION
-//{
-//	string d_o_w; // day of week: MON/TUE/WED/THU/FRI/SAT
-//	string lesson; // S1:7h30; S2:9h30; S3:13h30; S4:15h30;
-//} session;
 
 typedef struct STAFF
 {
@@ -59,20 +54,31 @@ typedef struct CLASSES
 	student** list_stu_of_class;
 } classes;
 
+typedef struct SESSION
+{
+	string d_o_w; // day of week: MON/TUE/WED/THU/FRI/SAT
+	string lesson; // S1:7h30; S2:9h30; S3:13h30; S4:15h30;
+} session;
+
 typedef struct COURSE
 {
-	int ID = 0;
+	string ID;
 	string course_name;
 	string class_name;
 	staff staff_name;
 	int num_of_credits = 0;
-	//school_year 
+	int n_o_stu_in_cou = 0;	// num of students in course
+	student** list_stu_of_cou;
 } course;
 
 typedef struct SEMESTER
 {
-	school_year sch_y;	//school_year
-	int semester = 0; // 1:Fall; 2:Summer; 3:Autumn;
+	school_year sch_y;	// school_year
+	int semester = 0;	// 1:Fall; 2:Summer; 3:Autumn;
+	int start_d = 0, start_m = 0, start_y = 0;
+	int end_d = 0, end_m = 0, end_y = 0;
+	int n_o_cou = 0;	// num of courses
+	course** list_courses;
 } semester;
 
 //COMMON
@@ -95,7 +101,12 @@ void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
 classes** create_classes(school_year sch_y, int& n_o_cla);
 void menu_staff_1();
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt);
+void menu_staff_2();
+course* create_course();
+void display_course(course* course);
+void display_list_courses(course** list_courses, int n_o_cou);
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem);
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem);
 
 //STUDENT
 student** init_list_students(string file_name, int& n_o_students);

@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\classes member list">
       <UniqueIdentifier>{cfc23305-3783-42d2-afed-111314bf327b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\courses member list">
+      <UniqueIdentifier>{6a22034d-c261-482a-8378-b1316c7a1696}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMS.h">
@@ -48,6 +51,12 @@
     </Text>
     <Text Include="22APCS1.txt">
       <Filter>Resource Files\classes member list</Filter>
+    </Text>
+    <Text Include="CSC10002.txt">
+      <Filter>Resource Files\courses member list</Filter>
+    </Text>
+    <Text Include="MTH100004.txt">
+      <Filter>Resource Files\courses member list</Filter>
     </Text>
   </ItemGroup>
 </Project>

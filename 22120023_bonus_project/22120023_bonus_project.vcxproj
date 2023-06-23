@@ -140,6 +140,8 @@
   <ItemGroup>
     <Text Include="22APCS1.txt" />
     <Text Include="22CTT2.txt" />
+    <Text Include="CSC10002.txt" />
+    <Text Include="MTH100004.txt" />
     <Text Include="staff.txt" />
     <Text Include="student.txt" />
   </ItemGroup>
