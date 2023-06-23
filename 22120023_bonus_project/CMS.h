@@ -67,6 +67,7 @@ typedef struct COURSE
 	string class_name;
 	staff staff_name;
 	int num_of_credits = 0;
+	session ses;
 	int n_o_stu_in_cou = 0;	// num of students in course
 	student** list_stu_of_cou;
 } course;

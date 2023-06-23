@@ -251,6 +251,13 @@ course* create_course()
 	cout << "Enter teacher name: ";
 	while (!(getline(cin, cou->staff_name.name)))
 		invalidInput();
+	cout << "Enter the day of the week and the sesion that the course will be performed: ";
+	cout << "Enter the day of the week (MON/TUE/WED/THU/FRI/SAT): ";
+	while (!(getline(cin, cou->ses.d_o_w)))
+		invalidInput();
+	cout << "Enter the sesion (S1:7h30; S2:9h30; S3:13h30; S4:15h30;): ";
+	while (!(getline(cin, cou->ses.lesson)))
+		invalidInput();
 	cout << "Enter number of credits: ";
 	while (!(cin >> cou->num_of_credits) || cou->num_of_credits < 1)
 		invalidInput();
@@ -266,6 +273,7 @@ void display_course(course* course)
 	cout << "\nClass name: " << course->class_name;
 	cout << "\nTeacher name: " << course->staff_name.name;
 	cout << "\nNumber of credits: " << course->num_of_credits;
+	cout << "\nThe day of the week and the sesion that the course will be performed: " << course->ses.d_o_w << ", " << course->ses.lesson;
 	cout << "\nCourse " << course->course_name << " list of students:\n";
 	display_list_students(course->list_stu_of_cou, course->n_o_stu_in_cou);
 	cout << "\n\n";
@@ -353,10 +361,81 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 4:
 	{
+		if (sem.n_o_cou == 0)
+			cout << "Courses have not been created\nPlease continue and type 3 to add a course\n";
+		else
+		{
+			string cou_ID;
+			cin.ignore(1000, '\n');
+			cout << "Enter the ID of the course to update information: ";
+			while (!(getline(cin, cou_ID)))
+				invalidInput();
+			bool found = false;
+			for (int i = 0; i < sem.n_o_cou; i++)
+			{
+				if (cou_ID == sem.list_courses[i]->ID)
+				{
+					found = true;
+					int option_3 = -1;
+					while (option_3 != 0)
+					{
+						cout << "\nType 1: Update class name.";
+						cout << "\nType 2: Update teacher name.";
+						cout << "\nType 3: Update the day of the week and the sesion.";
+						cout << "\nType 4: Update number of credits.";
+						cout << "\nType 0: Done.\n\nEnter option: ";
+						while (!(cin >> option_3) || option_3 < 0 || option_3>4)
+							invalidInput();
+						cin.ignore(1000, '\n');
+						switch (option_3)
+						{
+						case 1:
+						{
+							cout << "Enter new class name: ";
+							while (!(getline(cin, sem.list_courses[i]->class_name)))
+								invalidInput();
+							break;
+						}
+						case 2:
+						{
+							cout << "Enter new teacher name: ";
+							while (!(getline(cin, sem.list_courses[i]->staff_name.name)))
+								invalidInput();							
+							break;
+						}
+						case 3:
+						{
+							cout << "Enter the new day of the week (MON/TUE/WED/THU/FRI/SAT): ";
+							while (!(getline(cin, sem.list_courses[i]->ses.d_o_w)))
+								invalidInput();
+							cout << "Enter the new sesion (S1:7h30; S2:9h30; S3:13h30; S4:15h30;): ";
+							while (!(getline(cin, sem.list_courses[i]->ses.lesson)))
+								invalidInput();							
+							break;
+						}
+						case 4:
+						{
+							cout << "Enter number of credits: ";
+							while (!(cin >> sem.list_courses[i]->num_of_credits) || sem.list_courses[i]->num_of_credits < 1)
+								invalidInput();
+							break;
+						}
+						case 0:
+						{
+							break;
+						}
+						}
+					}
+				}
+			}
+			if (!found)
+				cout << "\nThe course with the ID entered does not exist\n";
+		}
 		break;
 	}
 	case 5:
 	{
+
 		break;
 	}
 	case 6:
