@@ -251,7 +251,7 @@ course* create_course()
 	cout << "Enter teacher name: ";
 	while (!(getline(cin, cou->staff_name.name)))
 		invalidInput();
-	cout << "Enter the day of the week and the sesion that the course will be performed: ";
+	cout << "Enter the day of the week and the sesion that the course will be performed:\n";
 	cout << "Enter the day of the week (MON/TUE/WED/THU/FRI/SAT): ";
 	while (!(getline(cin, cou->ses.d_o_w)))
 		invalidInput();
@@ -379,13 +379,15 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 					int option_3 = -1;
 					while (option_3 != 0)
 					{
+						system("cls");
+						display_frame();
 						cout << "\nType 1: Update class name.";
 						cout << "\nType 2: Update teacher name.";
 						cout << "\nType 3: Update the day of the week and the sesion.";
 						cout << "\nType 4: Update number of credits.";
 						cout << "\nType 0: Done.\n\nEnter option: ";
 						while (!(cin >> option_3) || option_3 < 0 || option_3>4)
-							invalidInput();
+							invalidInput();						
 						cin.ignore(1000, '\n');
 						switch (option_3)
 						{
@@ -450,25 +452,24 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 				if (cou_ID == sem.list_courses[i]->ID)
 				{
 					found = true;
-					cin.ignore(1000, '\n');
 					string stu_ID;
 					cout << "Enter student ID of the student added to this course: ";
 					while (!(getline(cin, stu_ID)))
 						invalidInput();
 					int pos = find_pos_student_ID(list_students, stu_ID, 0, n_o_students - 1);
-					int pos_2 = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou);
+					int pos_2 = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou - 1);
 					if (pos != -1 && pos_2 == -1)
 					{
 						sem.list_courses[i]->n_o_stu_in_cou++;
 						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
 						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
-						new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[i];
+						new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
 						delete[] sem.list_courses[i]->list_stu_of_cou;
 						sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
 					}
 					else if (pos != -1 && pos_2 != -1)
 						cout << "\nThis student already exists in the course\n";
-					else
+					else if (pos == -1 && pos_2 == -1)
 						cout << "\nStudent ID does not exist\n";
 				}
 			}
