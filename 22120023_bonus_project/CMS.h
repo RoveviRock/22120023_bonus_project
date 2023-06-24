@@ -106,11 +106,12 @@ void menu_staff_2();
 course* create_course();
 void display_course(course* course);
 void display_list_courses(course** list_courses, int n_o_cou);
-void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem);
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem);
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students);
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students);
 
 //STUDENT
 student** init_list_students(string file_name, int& n_o_students);
+int find_pos_student_ID(student** list_students, string ID, int a, int b);
 student* sign_in_student(student** list_students, int n_o_students);
 bool change_password_student(student* student);
 void display_student_personal(student* student);

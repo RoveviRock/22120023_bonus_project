@@ -289,7 +289,7 @@ void display_list_courses(course** list_courses, int n_o_cou)
 	}
 }
 
-void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem)
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students)
 {
 	system("cls");
 	display_frame();
@@ -435,7 +435,46 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 5:
 	{
-
+		if (sem.n_o_cou == 0)
+			cout << "Courses have not been created\nPlease continue and type 3 to add a course\n";
+		else
+		{
+			string cou_ID;
+			cin.ignore(1000, '\n');
+			cout << "Enter the ID of the course to add a student: ";
+			while (!(getline(cin, cou_ID)))
+				invalidInput();
+			bool found = false;
+			for (int i = 0; i < sem.n_o_cou; i++)
+			{
+				if (cou_ID == sem.list_courses[i]->ID)
+				{
+					found = true;
+					cin.ignore(1000, '\n');
+					string stu_ID;
+					cout << "Enter student ID of the student added to this course: ";
+					while (!(getline(cin, stu_ID)))
+						invalidInput();
+					int pos = find_pos_student_ID(list_students, stu_ID, 0, n_o_students - 1);
+					int pos_2 = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou);
+					if (pos != -1 && pos_2 == -1)
+					{
+						sem.list_courses[i]->n_o_stu_in_cou++;
+						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
+						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+						new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[i];
+						delete[] sem.list_courses[i]->list_stu_of_cou;
+						sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
+					}
+					else if (pos != -1 && pos_2 != -1)
+						cout << "\nThis student already exists in the course\n";
+					else
+						cout << "\nStudent ID does not exist\n";
+				}
+			}
+			if (!found)
+				cout << "\nThe course with the ID entered does not exist\n";
+		}
 		break;
 	}
 	case 6:
@@ -483,7 +522,7 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	display_frame();
 }
 
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem)
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students)
 {
 	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
 	if (staff != nullptr)
@@ -551,7 +590,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 					menu_staff_2();
 					while (!(cin >> option_2) || option_2 < 0 || option_2>9)
 						invalidInput();
-					management_semester(option, option_2, opt, sch_y, list_classes, sem);
+					management_semester(option, option_2, opt, sch_y, list_classes, sem, list_students, n_o_students);
 				}
 				break;
 			}
