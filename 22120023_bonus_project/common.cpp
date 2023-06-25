@@ -73,6 +73,8 @@ void invalidInput()
 
 bool sign_out()
 {
+	system("cls");
+	display_frame();
 	int option = -1;
 	cout << "Are you sure you want to sign out?\nType 1: Sign out.\nType 0: No.\n\nEnter option: ";
 	while (!(cin >> option) || option < 0 || option>1)

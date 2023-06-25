@@ -216,8 +216,9 @@ void menu_staff_1()
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Create a school year and several classes.";
-	cout << "\nType 4: Management a semester.";
-	cout << "\nType 5: Exit the system.";
+	cout << "\nType 4: Display the list of class.";
+	cout << "\nType 5: Management a semester.";
+	cout << "\nType 6: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
@@ -341,13 +342,16 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 3:
 	{
-		display_list_courses(sem.list_courses, sem.n_o_cou);
+		if (sem.n_o_cou == 0)
+			cout << "List courses is empty\n";
+		else
+			display_list_courses(sem.list_courses, sem.n_o_cou);
 		break;
 	}
 	case 4:
 	{
 		if (sem.n_o_cou == 0)
-			cout << "Courses have not been created\nPlease continue and type 3 to add a course\n";
+			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
 			string cou_ID;
@@ -423,7 +427,7 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	case 5:
 	{
 		if (sem.n_o_cou == 0)
-			cout << "Courses have not been created\nPlease continue and type 3 to add a course\n";
+			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
 			string cou_ID;
@@ -447,39 +451,25 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 					{
 						sem.list_courses[i]->n_o_stu_in_cou++;
 						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
-						//copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
-						if (stu_ID < sem.list_courses[i]->list_stu_of_cou[0]->student_ID)
+						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+						// chen vao danh sach sao cho van giu duoc thu tu tang dan MSSV
+						int j = sem.list_courses[i]->n_o_stu_in_cou - 2;
+						while (j >= 0 && new_list_stu_o_cou[j]->student_ID > stu_ID)
 						{
-							copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou + 1);
-							new_list_stu_o_cou[0] = list_students[pos];
+							new_list_stu_o_cou[j + 1] = new_list_stu_o_cou[j];
+							j--;
 						}
-						else if (stu_ID > sem.list_courses[i]->list_stu_of_cou[sem.list_courses[i]->n_o_stu_in_cou - 2]->student_ID)
-						{
-							copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
-							new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
-						}
-						else //if(stu_ID > sem.list_courses[i]->list_stu_of_cou[0]->student_ID && stu_ID < sem.list_courses[i]->list_stu_of_cou[sem.list_courses[i]->n_o_stu_in_cou - 2]->student_ID)
-						{
-							//copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
-							for (int j = 0; j < sem.list_courses[i]->n_o_stu_in_cou - 1; j++)
-							{
-								if (stu_ID > sem.list_courses[i]->list_stu_of_cou[j - 1]->student_ID && stu_ID < sem.list_courses[i]->list_stu_of_cou[j]->student_ID)
-								{
-									copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + j, new_list_stu_o_cou);
-									copy(sem.list_courses[i]->list_stu_of_cou + j, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou + j + 1);
-									new_list_stu_o_cou[j] = list_students[pos];
-									j = sem.list_courses[i]->n_o_stu_in_cou - 1;
-								}
-							}
-						}
-						//new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
+						new_list_stu_o_cou[j + 1] = list_students[pos];
 						delete[] sem.list_courses[i]->list_stu_of_cou;
 						sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
 					}
+					// sinh vien da co trong danh sach cua khoa hoc
 					else if (pos != -1 && pos_2 != -1)
 						cout << "\nThis student already exists in the course\n";
+					// sinh vien khong ton tai trong danh sach toan bo sinh vien dau vao
 					else if (pos == -1 && pos_2 == -1)
 						cout << "\nStudent ID does not exist\n";
+					break;
 				}
 			}
 			if (!found)
@@ -489,10 +479,83 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 6:
 	{
+		if (sem.n_o_cou == 0)
+			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
+		else
+		{
+			string cou_ID;
+			cin.ignore(1000, '\n');
+			cout << "Enter the ID of the course to add a student: ";
+			while (!(getline(cin, cou_ID)))
+				invalidInput();
+			bool found = false;
+			for (int i = 0; i < sem.n_o_cou; i++)
+			{
+				if (cou_ID == sem.list_courses[i]->ID)
+				{
+					found = true;
+					string stu_ID;
+					cout << "Enter student ID of the student removed from this course: ";
+					while (!(getline(cin, stu_ID)))
+						invalidInput();
+					int pos = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou - 1);
+					if (pos != -1)
+					{
+						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
+						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou, new_list_stu_o_cou);
+						int j = pos;
+						while (j < sem.list_courses[i]->n_o_stu_in_cou - 1)
+						{
+							new_list_stu_o_cou[j] = new_list_stu_o_cou[j + 1];
+							j++;
+						}
+						delete[] sem.list_courses[i]->list_stu_of_cou;
+						sem.list_courses[i]->list_stu_of_cou = new student * [--sem.list_courses[i]->n_o_stu_in_cou];	// giam kich thuoc di 1 student
+						copy(new_list_stu_o_cou, new_list_stu_o_cou + sem.list_courses[i]->n_o_stu_in_cou, sem.list_courses[i]->list_stu_of_cou);
+					}
+					// sinh vien khong co trong danh sach cua khoa hoc
+					else if (pos == -1)
+						cout << "\nThis student does not exist in the course\n";
+					break;
+				}
+			}
+			if (!found)
+				cout << "\nThe course with the ID entered does not exist\n";
+		}
 		break;
 	}
 	case 7:
 	{
+		if (sem.n_o_cou == 0)
+			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
+		else
+		{
+			string cou_ID;
+			cin.ignore(1000, '\n');
+			cout << "Enter the ID of the course to delete: ";
+			while (!(getline(cin, cou_ID)))
+				invalidInput();
+			bool found = false;
+			for (int i = 0; i < sem.n_o_cou; i++)
+			{
+				if (cou_ID == sem.list_courses[i]->ID)
+				{
+					found = true;
+					course** new_list_courses = new course * [sem.n_o_cou];
+					copy(sem.list_courses, sem.list_courses + sem.n_o_cou, new_list_courses);
+					for (int j = i; j < sem.n_o_cou - 1; j++)
+					{
+						new_list_courses[j] = new_list_courses[j + 1];
+					}
+					delete[] sem.list_courses;
+					sem.list_courses = new course * [--sem.n_o_cou];
+					copy(new_list_courses, new_list_courses + sem.n_o_cou, sem.list_courses);
+					break;
+				}
+			}
+			if (!found)
+				cout << "\nThe course with the ID entered does not exist\n";
+		}
 		break;
 	}
 	case 8:
@@ -512,6 +575,8 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	{
 		if (!sign_out())
 			option_2 = -1;
+		else
+			option = 0;
 		break;
 	}
 	}
@@ -592,6 +657,22 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 			}
 			case 4:
 			{
+				/*system("cls");
+				display_frame();
+				string name_cla;
+				cout << "Enter the name of class: ";
+				while (!(getline(cin, name_cla)))
+					invalidInput();
+				for (int i = 0; i < n_o_cla; i++)
+				{
+					cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
+					display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
+					cout << "\n\n";
+				}*/
+				break;
+			}
+			case 5:
+			{
 				system("cls");
 				display_frame();
 				int option_2 = -1;
@@ -604,7 +685,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 				}
 				break;
 			}
-			case 5:
+			case 6:
 			{
 				option = 0;
 				opt = 0;
