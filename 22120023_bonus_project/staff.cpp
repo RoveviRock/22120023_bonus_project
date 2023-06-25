@@ -325,21 +325,6 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 			{
 				sem.n_o_cou++;
 				sem.list_courses = new course * [sem.n_o_cou];
-				/*cout << "Enter course ID: ";
-				while (!(getline(cin, sem.list_courses[0]->ID)))
-					invalidInput();
-				cout << "Enter course name: ";
-				while (!(getline(cin, sem.list_courses[0]->course_name)))
-					invalidInput();
-				cout << "Enter class name: ";
-				while (!(getline(cin, sem.list_courses[0]->class_name)))
-					invalidInput();
-				cout << "Enter teacher name: ";
-				while (!(getline(cin, sem.list_courses[0]->staff_name.name)))
-					invalidInput();
-				cout << "Number of credits: ";
-				while (!(cin >> sem.list_courses[0]->num_of_credits) || sem.list_courses[0]->num_of_credits < 1)
-					invalidInput();*/
 				sem.list_courses[0] = create_course();
 			}
 			else
@@ -462,8 +447,32 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 					{
 						sem.list_courses[i]->n_o_stu_in_cou++;
 						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
-						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
-						new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
+						//copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+						if (stu_ID < sem.list_courses[i]->list_stu_of_cou[0]->student_ID)
+						{
+							copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou + 1);
+							new_list_stu_o_cou[0] = list_students[pos];
+						}
+						else if (stu_ID > sem.list_courses[i]->list_stu_of_cou[sem.list_courses[i]->n_o_stu_in_cou - 2]->student_ID)
+						{
+							copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+							new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
+						}
+						else //if(stu_ID > sem.list_courses[i]->list_stu_of_cou[0]->student_ID && stu_ID < sem.list_courses[i]->list_stu_of_cou[sem.list_courses[i]->n_o_stu_in_cou - 2]->student_ID)
+						{
+							//copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+							for (int j = 0; j < sem.list_courses[i]->n_o_stu_in_cou - 1; j++)
+							{
+								if (stu_ID > sem.list_courses[i]->list_stu_of_cou[j - 1]->student_ID && stu_ID < sem.list_courses[i]->list_stu_of_cou[j]->student_ID)
+								{
+									copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + j, new_list_stu_o_cou);
+									copy(sem.list_courses[i]->list_stu_of_cou + j, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou + j + 1);
+									new_list_stu_o_cou[j] = list_students[pos];
+									j = sem.list_courses[i]->n_o_stu_in_cou - 1;
+								}
+							}
+						}
+						//new_list_stu_o_cou[sem.list_courses[i]->n_o_stu_in_cou - 1] = list_students[pos];
 						delete[] sem.list_courses[i]->list_stu_of_cou;
 						sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
 					}
