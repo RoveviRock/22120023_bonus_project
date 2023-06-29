@@ -184,28 +184,34 @@ school_year create_school_year()
 	while (!(cin >> sch_y.start_y) || sch_y.start_y < 1000)
 		invalidInput();
 	sch_y.end_y = sch_y.start_y + 1;
+	sch_y.list_classes = nullptr;
 	return sch_y;
 }
 
-classes** create_classes(school_year sch_y, int& n_o_cla)
+classes* create_class(school_year sch_y)
+{
+	classes* cla = new classes;
+	cout << "Enter name of class " << "(APCS1/APCS2/CTT2/CTT3/CLC1/CLC2/VP/...): ";
+	while (!(getline(cin, cla->name_cla)))
+		invalidInput();
+	cla->name_cla = to_string(sch_y.start_y % 100) + cla->name_cla;
+	string file_name = cla->name_cla + ".txt";
+	cla->list_stu_of_class = init_list_students(file_name, cla->n_o_stu_in_cla);
+	return cla;
+}
+
+classes** create_classes(school_year& sch_y)
 {
 	cout << "Enter number of classes: ";
-	while (!(cin >> n_o_cla) || n_o_cla < 1)
+	while (!(cin >> sch_y.n_o_cla) || sch_y.n_o_cla < 1)
 		invalidInput();
 	classes** list_classes;
-	list_classes = new classes * [n_o_cla];
+	list_classes = new classes * [sch_y.n_o_cla];
 	int i = 0;
 	cin.ignore(1000, '\n');
-	while (i < n_o_cla)
+	while (i < sch_y.n_o_cla)
 	{
-		list_classes[i] = new classes;
-		list_classes[i]->sch_y = sch_y;
-		cout << "Enter name of class " << i + 1 << "(APCS1/APCS2/CTT2/CTT3/CLC1/CLC2/VP/...): ";
-		while (!(getline(cin, list_classes[i]->name_cla)))
-			invalidInput();
-		list_classes[i]->name_cla = to_string(sch_y.start_y % 100) + list_classes[i]->name_cla;
-		string file_name = list_classes[i]->name_cla + ".txt";
-		list_classes[i]->list_stu_of_class = init_list_students(file_name, list_classes[i]->n_o_stu_in_cla);
+		list_classes[i] = create_class(sch_y);
 		i++;
 	}
 	return list_classes;
@@ -216,9 +222,10 @@ void menu_staff_1()
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Create a school year and several classes.";
-	cout << "\nType 4: Display the list of class.";
-	cout << "\nType 5: Management a semester.";
-	cout << "\nType 6: Exit the system.";
+	cout << "\nType 4: Add a class.";
+	cout << "\nType 5: Display the list of class.";
+	cout << "\nType 6: Management a semester.";
+	cout << "\nType 7: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
@@ -290,10 +297,11 @@ void display_list_courses(course** list_courses, int n_o_cou)
 	}
 }
 
-void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students)
+semester management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students)
 {
 	system("cls");
 	display_frame();
+	semester sem;
 	switch (option_2)
 	{
 	case 1:
@@ -595,9 +603,10 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	system("cls");
 	display_frame();
+	return sem;
 }
 
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students)
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students)
 {
 	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
 	if (staff != nullptr)
@@ -609,7 +618,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 		while (option != 0)
 		{
 			menu_staff_1();
-			while (!(cin >> option) || option < 0 || option>5)
+			while (!(cin >> option) || option < 0 || option>7)
 				invalidInput();
 			switch (option)
 			{
@@ -642,14 +651,13 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 				else
 				{
 					sch_y = create_school_year();
-					int n_o_cla = 0;
-					list_classes = create_classes(sch_y, n_o_cla);
+					sch_y.list_classes = create_classes(sch_y);
 					system("cls");
 					display_frame();
-					for (int i = 0; i < n_o_cla; i++)
+					for (int i = 0; i < sch_y.n_o_cla; i++)
 					{
-						cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
-						display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
+						cout << "Class " << sch_y.list_classes[i]->name_cla << " list of students:\n";
+						display_list_students(sch_y.list_classes[i]->list_stu_of_class, sch_y.list_classes[i]->n_o_stu_in_cla);
 						cout << "\n\n";
 					}
 				}
@@ -657,21 +665,58 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 			}
 			case 4:
 			{
-				/*system("cls");
-				display_frame();
-				string name_cla;
-				cout << "Enter the name of class: ";
-				while (!(getline(cin, name_cla)))
-					invalidInput();
-				for (int i = 0; i < n_o_cla; i++)
+				if (sch_y.start_y == 0)
+					cout << "School year has not been created\nPlease continue and type 3 to create school year and several classes\n";
+				else
 				{
-					cout << "Class " << list_classes[i]->name_cla << " list of students:\n";
-					display_list_students(list_classes[i]->list_stu_of_class, list_classes[i]->n_o_stu_in_cla);
+					sch_y.n_o_cla++;
+					classes** new_list_classes = new classes * [sch_y.n_o_cla];
+					copy(sch_y.list_classes, sch_y.list_classes + sch_y.n_o_cla - 1, new_list_classes);
+					system("cls");
+					display_frame();
+					cin.ignore(1000, '\n');
+					new_list_classes[sch_y.n_o_cla - 1] = create_class(sch_y);
+					delete[] sch_y.list_classes;
+					sch_y.list_classes = new_list_classes;
+					system("cls");
+					display_frame();
+					cout << "Class " << sch_y.list_classes[sch_y.n_o_cla - 1]->name_cla << " list of students:\n";
+					display_list_students(sch_y.list_classes[sch_y.n_o_cla - 1]->list_stu_of_class, sch_y.list_classes[sch_y.n_o_cla - 1]->n_o_stu_in_cla);
 					cout << "\n\n";
-				}*/
+				}
 				break;
 			}
 			case 5:
+			{
+				system("cls");
+				display_frame();
+				if (sch_y.n_o_cla == 0)
+					cout << "List classes is empty\nPlease continue, type 4 to add a class\n";
+				else
+				{
+					cin.ignore(1000, '\n');
+					string name_cla;
+					cout << "Enter the name of class: ";
+					while (!(getline(cin, name_cla)))
+						invalidInput();
+					bool found = false;
+					for (int i = 0; i < sch_y.n_o_cla; i++)
+					{
+						if (name_cla == sch_y.list_classes[i]->name_cla)
+						{
+							found = true;
+							cout << "Class " << sch_y.list_classes[i]->name_cla << " list of students:\n";
+							display_list_students(sch_y.list_classes[i]->list_stu_of_class, sch_y.list_classes[i]->n_o_stu_in_cla);
+							cout << "\n\n";
+							break;
+						}
+					}
+					if (!found)
+						cout << "\nThis class does not exist\n";
+				}
+				break;
+			}
+			case 6:
 			{
 				system("cls");
 				display_frame();
@@ -681,11 +726,11 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 					menu_staff_2();
 					while (!(cin >> option_2) || option_2 < 0 || option_2>9)
 						invalidInput();
-					management_semester(option, option_2, opt, sch_y, list_classes, sem, list_students, n_o_students);
+					sch_y.sem = management_semester(option, option_2, opt, sch_y, list_students, n_o_students);
 				}
 				break;
 			}
-			case 6:
+			case 7:
 			{
 				option = 0;
 				opt = 0;

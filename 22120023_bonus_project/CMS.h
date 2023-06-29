@@ -40,15 +40,8 @@ typedef struct STUDENT
 	string pass_word;
 } student;
 
-typedef struct SCHOOL_YEAR
-{
-	int start_y = 0;
-	int end_y = 0;
-} school_year;
-
 typedef struct CLASSES
 {
-	school_year sch_y;
 	string name_cla;	//class
 	int n_o_stu_in_cla = 0;	// num of students in class
 	student** list_stu_of_class;
@@ -74,13 +67,21 @@ typedef struct COURSE
 
 typedef struct SEMESTER
 {
-	school_year sch_y;	// school_year
 	int semester = 0;	// 1:Fall; 2:Summer; 3:Autumn;
 	int start_d = 0, start_m = 0, start_y = 0;
 	int end_d = 0, end_m = 0, end_y = 0;
 	int n_o_cou = 0;	// num of courses
 	course** list_courses;
 } semester;
+
+typedef struct SCHOOL_YEAR
+{
+	int start_y = 0;
+	int end_y = 0;
+	int n_o_cla = 0;
+	classes** list_classes;
+	semester sem;
+} school_year;
 
 //COMMON
 void GotoXY(int x, int y);
@@ -100,14 +101,15 @@ void display_staff(staff* staff);
 void display_profile_staff(staff* staff);
 void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
-classes** create_classes(school_year sch_y, int& n_o_cla);
+classes* create_class(school_year sch_y);
+classes** create_classes(school_year& sch_y);
 void menu_staff_1();
 void menu_staff_2();
 course* create_course();
 void display_course(course* course);
 void display_list_courses(course** list_courses, int n_o_cou);
-void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students);
-void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, classes**& list_classes, semester& sem, student** list_students, int n_o_students);
+semester management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students);
+void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 
 //STUDENT
 student** init_list_students(string file_name, int& n_o_students);
