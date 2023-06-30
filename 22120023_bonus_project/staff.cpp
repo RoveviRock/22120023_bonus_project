@@ -297,11 +297,10 @@ void display_list_courses(course** list_courses, int n_o_cou)
 	}
 }
 
-semester management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students)
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students)
 {
 	system("cls");
 	display_frame();
-	semester sem;
 	switch (option_2)
 	{
 	case 1:
@@ -311,54 +310,54 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 		else
 		{
 			cout << "Semester 1(Fall) or 2(Summer) or 3(Autumn)?\n\nType 1/2/3: ";
-			while (!(cin >> sem.semester) || sem.semester < 1 || sem.semester > 3)
+			while (!(cin >> sch_y.sem.semester) || sch_y.sem.semester < 1 || sch_y.sem.semester > 3)
 				invalidInput();
 			cout << "\nThis semester belongs to the school year " << sch_y.start_y << "-" << sch_y.end_y << endl;
 			cout << "Enter start day of this semester (dd/mm/yyyy) (standard input required): ";
-			while (!(cin >> sem.start_d >> sem.start_m >> sem.start_y))
+			while (!(cin >> sch_y.sem.start_d >> sch_y.sem.start_m >> sch_y.sem.start_y))
 				invalidInput();
 			cout << "Enter end day of this semester (dd/mm/yyyy) (standard input required): ";
-			while (!(cin >> sem.end_d >> sem.end_m >> sem.end_y))
+			while (!(cin >> sch_y.sem.end_d >> sch_y.sem.end_m >> sch_y.sem.end_y))
 				invalidInput();
-			sem.list_courses = nullptr;
+			sch_y.sem.list_courses = nullptr;
 		}
 		break;
 	}
 	case 2:
 	{
-		if (sem.semester != 1 && sem.semester != 2 && sem.semester != 3)
+		if (sch_y.sem.semester == 0)
 			cout << "Semester has not been created\nPlease continue and type 1 to create a semester\n";
 		else
 		{
-			if (sem.n_o_cou == 0)
+			if (sch_y.sem.n_o_cou == 0)
 			{
-				sem.n_o_cou++;
-				sem.list_courses = new course * [sem.n_o_cou];
-				sem.list_courses[0] = create_course();
+				sch_y.sem.n_o_cou++;
+				sch_y.sem.list_courses = new course * [sch_y.sem.n_o_cou];
+				sch_y.sem.list_courses[0] = create_course();
 			}
 			else
 			{
-				sem.n_o_cou++;
-				course** new_list_courses = new course * [sem.n_o_cou];
-				copy(sem.list_courses, sem.list_courses + sem.n_o_cou - 1, new_list_courses);
-				new_list_courses[sem.n_o_cou - 1] = create_course();
-				delete[] sem.list_courses;
-				sem.list_courses = new_list_courses;
+				sch_y.sem.n_o_cou++;
+				course** new_list_courses = new course * [sch_y.sem.n_o_cou];
+				copy(sch_y.sem.list_courses, sch_y.sem.list_courses + sch_y.sem.n_o_cou - 1, new_list_courses);
+				new_list_courses[sch_y.sem.n_o_cou - 1] = create_course();
+				delete[] sch_y.sem.list_courses;
+				sch_y.sem.list_courses = new_list_courses;
 			}
 		}
 		break;
 	}
 	case 3:
 	{
-		if (sem.n_o_cou == 0)
+		if (sch_y.sem.n_o_cou == 0)
 			cout << "List courses is empty\n";
 		else
-			display_list_courses(sem.list_courses, sem.n_o_cou);
+			display_list_courses(sch_y.sem.list_courses, sch_y.sem.n_o_cou);
 		break;
 	}
 	case 4:
 	{
-		if (sem.n_o_cou == 0)
+		if (sch_y.sem.n_o_cou == 0)
 			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
@@ -368,9 +367,9 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 			while (!(getline(cin, cou_ID)))
 				invalidInput();
 			bool found = false;
-			for (int i = 0; i < sem.n_o_cou; i++)
+			for (int i = 0; i < sch_y.sem.n_o_cou; i++)
 			{
-				if (cou_ID == sem.list_courses[i]->ID)
+				if (cou_ID == sch_y.sem.list_courses[i]->ID)
 				{
 					found = true;
 					int option_3 = -1;
@@ -391,31 +390,31 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 						case 1:
 						{
 							cout << "Enter new class name: ";
-							while (!(getline(cin, sem.list_courses[i]->class_name)))
+							while (!(getline(cin, sch_y.sem.list_courses[i]->class_name)))
 								invalidInput();
 							break;
 						}
 						case 2:
 						{
 							cout << "Enter new teacher name: ";
-							while (!(getline(cin, sem.list_courses[i]->staff_name.name)))
+							while (!(getline(cin, sch_y.sem.list_courses[i]->staff_name.name)))
 								invalidInput();							
 							break;
 						}
 						case 3:
 						{
 							cout << "Enter the new day of the week (MON/TUE/WED/THU/FRI/SAT): ";
-							while (!(getline(cin, sem.list_courses[i]->ses.d_o_w)))
+							while (!(getline(cin, sch_y.sem.list_courses[i]->ses.d_o_w)))
 								invalidInput();
 							cout << "Enter the new sesion (S1:7h30; S2:9h30; S3:13h30; S4:15h30;): ";
-							while (!(getline(cin, sem.list_courses[i]->ses.lesson)))
+							while (!(getline(cin, sch_y.sem.list_courses[i]->ses.lesson)))
 								invalidInput();							
 							break;
 						}
 						case 4:
 						{
 							cout << "Enter number of credits: ";
-							while (!(cin >> sem.list_courses[i]->num_of_credits) || sem.list_courses[i]->num_of_credits < 1)
+							while (!(cin >> sch_y.sem.list_courses[i]->num_of_credits) || sch_y.sem.list_courses[i]->num_of_credits < 1)
 								invalidInput();
 							break;
 						}
@@ -434,7 +433,7 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 	}
 	case 5:
 	{
-		if (sem.n_o_cou == 0)
+		if (sch_y.sem.n_o_cou == 0)
 			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
@@ -444,9 +443,9 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 			while (!(getline(cin, cou_ID)))
 				invalidInput();
 			bool found = false;
-			for (int i = 0; i < sem.n_o_cou; i++)
+			for (int i = 0; i < sch_y.sem.n_o_cou; i++)
 			{
-				if (cou_ID == sem.list_courses[i]->ID)
+				if (cou_ID == sch_y.sem.list_courses[i]->ID)
 				{
 					found = true;
 					string stu_ID;
@@ -454,22 +453,22 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 					while (!(getline(cin, stu_ID)))
 						invalidInput();
 					int pos = find_pos_student_ID(list_students, stu_ID, 0, n_o_students - 1);
-					int pos_2 = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou - 1);
+					int pos_2 = find_pos_student_ID(sch_y.sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1);
 					if (pos != -1 && pos_2 == -1)
 					{
-						sem.list_courses[i]->n_o_stu_in_cou++;
-						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
-						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
+						sch_y.sem.list_courses[i]->n_o_stu_in_cou++;
+						student** new_list_stu_o_cou = new student * [sch_y.sem.list_courses[i]->n_o_stu_in_cou];
+						copy(sch_y.sem.list_courses[i]->list_stu_of_cou, sch_y.sem.list_courses[i]->list_stu_of_cou + sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1, new_list_stu_o_cou);
 						// chen vao danh sach sao cho van giu duoc thu tu tang dan MSSV
-						int j = sem.list_courses[i]->n_o_stu_in_cou - 2;
+						int j = sch_y.sem.list_courses[i]->n_o_stu_in_cou - 2;
 						while (j >= 0 && new_list_stu_o_cou[j]->student_ID > stu_ID)
 						{
 							new_list_stu_o_cou[j + 1] = new_list_stu_o_cou[j];
 							j--;
 						}
 						new_list_stu_o_cou[j + 1] = list_students[pos];
-						delete[] sem.list_courses[i]->list_stu_of_cou;
-						sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
+						delete[] sch_y.sem.list_courses[i]->list_stu_of_cou;
+						sch_y.sem.list_courses[i]->list_stu_of_cou = new_list_stu_o_cou;
 					}
 					// sinh vien da co trong danh sach cua khoa hoc
 					else if (pos != -1 && pos_2 != -1)
@@ -487,7 +486,7 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 	}
 	case 6:
 	{
-		if (sem.n_o_cou == 0)
+		if (sch_y.sem.n_o_cou == 0)
 			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
@@ -497,29 +496,29 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 			while (!(getline(cin, cou_ID)))
 				invalidInput();
 			bool found = false;
-			for (int i = 0; i < sem.n_o_cou; i++)
+			for (int i = 0; i < sch_y.sem.n_o_cou; i++)
 			{
-				if (cou_ID == sem.list_courses[i]->ID)
+				if (cou_ID == sch_y.sem.list_courses[i]->ID)
 				{
 					found = true;
 					string stu_ID;
 					cout << "Enter student ID of the student removed from this course: ";
 					while (!(getline(cin, stu_ID)))
 						invalidInput();
-					int pos = find_pos_student_ID(sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sem.list_courses[i]->n_o_stu_in_cou - 1);
+					int pos = find_pos_student_ID(sch_y.sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1);
 					if (pos != -1)
 					{
-						student** new_list_stu_o_cou = new student * [sem.list_courses[i]->n_o_stu_in_cou];
-						copy(sem.list_courses[i]->list_stu_of_cou, sem.list_courses[i]->list_stu_of_cou + sem.list_courses[i]->n_o_stu_in_cou, new_list_stu_o_cou);
+						student** new_list_stu_o_cou = new student * [sch_y.sem.list_courses[i]->n_o_stu_in_cou];
+						copy(sch_y.sem.list_courses[i]->list_stu_of_cou, sch_y.sem.list_courses[i]->list_stu_of_cou + sch_y.sem.list_courses[i]->n_o_stu_in_cou, new_list_stu_o_cou);
 						int j = pos;
-						while (j < sem.list_courses[i]->n_o_stu_in_cou - 1)
+						while (j < sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1)
 						{
 							new_list_stu_o_cou[j] = new_list_stu_o_cou[j + 1];
 							j++;
 						}
-						delete[] sem.list_courses[i]->list_stu_of_cou;
-						sem.list_courses[i]->list_stu_of_cou = new student * [--sem.list_courses[i]->n_o_stu_in_cou];	// giam kich thuoc di 1 student
-						copy(new_list_stu_o_cou, new_list_stu_o_cou + sem.list_courses[i]->n_o_stu_in_cou, sem.list_courses[i]->list_stu_of_cou);
+						delete[] sch_y.sem.list_courses[i]->list_stu_of_cou;
+						sch_y.sem.list_courses[i]->list_stu_of_cou = new student * [--sch_y.sem.list_courses[i]->n_o_stu_in_cou];	// giam kich thuoc di 1 student
+						copy(new_list_stu_o_cou, new_list_stu_o_cou + sch_y.sem.list_courses[i]->n_o_stu_in_cou, sch_y.sem.list_courses[i]->list_stu_of_cou);
 					}
 					// sinh vien khong co trong danh sach cua khoa hoc
 					else if (pos == -1)
@@ -534,7 +533,7 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 	}
 	case 7:
 	{
-		if (sem.n_o_cou == 0)
+		if (sch_y.sem.n_o_cou == 0)
 			cout << "Courses have not been created\nPlease continue and type 2 to add a course\n";
 		else
 		{
@@ -544,20 +543,20 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 			while (!(getline(cin, cou_ID)))
 				invalidInput();
 			bool found = false;
-			for (int i = 0; i < sem.n_o_cou; i++)
+			for (int i = 0; i < sch_y.sem.n_o_cou; i++)
 			{
-				if (cou_ID == sem.list_courses[i]->ID)
+				if (cou_ID == sch_y.sem.list_courses[i]->ID)
 				{
 					found = true;
-					course** new_list_courses = new course * [sem.n_o_cou];
-					copy(sem.list_courses, sem.list_courses + sem.n_o_cou, new_list_courses);
-					for (int j = i; j < sem.n_o_cou - 1; j++)
+					course** new_list_courses = new course * [sch_y.sem.n_o_cou];
+					copy(sch_y.sem.list_courses, sch_y.sem.list_courses + sch_y.sem.n_o_cou, new_list_courses);
+					for (int j = i; j < sch_y.sem.n_o_cou - 1; j++)
 					{
 						new_list_courses[j] = new_list_courses[j + 1];
 					}
-					delete[] sem.list_courses;
-					sem.list_courses = new course * [--sem.n_o_cou];
-					copy(new_list_courses, new_list_courses + sem.n_o_cou, sem.list_courses);
+					delete[] sch_y.sem.list_courses;
+					sch_y.sem.list_courses = new course * [--sch_y.sem.n_o_cou];
+					copy(new_list_courses, new_list_courses + sch_y.sem.n_o_cou, sch_y.sem.list_courses);
 					break;
 				}
 			}
@@ -603,7 +602,6 @@ semester management_semester(int& option, int& option_2, int& opt, school_year& 
 	}
 	system("cls");
 	display_frame();
-	return sem;
 }
 
 void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students)
@@ -712,7 +710,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 						}
 					}
 					if (!found)
-						cout << "\nThis class does not exist\n";
+						cout << "\nThe class does not exist\n";
 				}
 				break;
 			}
@@ -726,7 +724,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 					menu_staff_2();
 					while (!(cin >> option_2) || option_2 < 0 || option_2>9)
 						invalidInput();
-					sch_y.sem = management_semester(option, option_2, opt, sch_y, list_students, n_o_students);
+					management_semester(option, option_2, opt, sch_y, list_students, n_o_students);
 				}
 				break;
 			}

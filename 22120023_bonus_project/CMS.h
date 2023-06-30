@@ -108,7 +108,7 @@ void menu_staff_2();
 course* create_course();
 void display_course(course* course);
 void display_list_courses(course** list_courses, int n_o_cou);
-semester management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students);
+void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 
 //STUDENT
