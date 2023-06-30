@@ -103,11 +103,13 @@ void display_list_staffs(staff** list_staffs, int n_o_staffs);
 school_year create_school_year();
 classes* create_class(school_year sch_y);
 classes** create_classes(school_year& sch_y);
+void display_list_classes(classes** list_classes, int n_o_cla);
 void menu_staff_1();
 void menu_staff_2();
 course* create_course();
 void display_course(course* course);
 void display_list_courses(course** list_courses, int n_o_cou);
+void display_list_stu_o_course(course** list_courses, int n_o_cou);
 void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 
