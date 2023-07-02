@@ -29,6 +29,8 @@ typedef struct STAFF
 	string pass_word;
 } staff;
 
+typedef struct COURSE course;
+
 typedef struct STUDENT
 {
 	string student_ID;
@@ -38,13 +40,15 @@ typedef struct STUDENT
 	birth d_o_b; // day of birth
 	string social_ID;
 	string pass_word;
+	int n_o_cou_o_stu = 0;	// num of courses of student 
+	course** list_cou_o_stu = nullptr;	// list courses of student
 } student;
 
 typedef struct CLASSES
 {
 	string name_cla;	//class
 	int n_o_stu_in_cla = 0;	// num of students in class
-	student** list_stu_of_class;
+	student** list_stu_of_class = nullptr;
 } classes;
 
 typedef struct SESSION
@@ -62,7 +66,7 @@ typedef struct COURSE
 	int num_of_credits = 0;
 	session ses;
 	int n_o_stu_in_cou = 0;	// num of students in course
-	student** list_stu_of_cou;
+	student** list_stu_of_cou = nullptr;
 } course;
 
 typedef struct SEMESTER
@@ -71,7 +75,7 @@ typedef struct SEMESTER
 	int start_d = 0, start_m = 0, start_y = 0;
 	int end_d = 0, end_m = 0, end_y = 0;
 	int n_o_cou = 0;	// num of courses
-	course** list_courses;
+	course** list_courses = nullptr;
 } semester;
 
 typedef struct SCHOOL_YEAR
@@ -79,7 +83,7 @@ typedef struct SCHOOL_YEAR
 	int start_y = 0;
 	int end_y = 0;
 	int n_o_cla = 0;
-	classes** list_classes;
+	classes** list_classes = nullptr;
 	semester sem;
 } school_year;
 
@@ -122,7 +126,6 @@ void display_student_personal(student* student);
 void display_student_frame(student* student);
 void display_list_students(student** list_students, int n_o_students);
 void menu_student_1();
-void working_console_student(student** list_students, int n_o_students, int& opt);
+void working_console_student(student** list_students, int n_o_students, int& opt, school_year& sch_y);
 
 #endif // !_course_management_system_h_
-

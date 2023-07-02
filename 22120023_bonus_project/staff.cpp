@@ -54,7 +54,7 @@ int find_pos_staff_ID(staff** list_staffs, string ID, int a, int b)	//a is the f
 
 staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 {
-	staff* staff = nullptr;
+	staff* sta = nullptr;
 	string ID;
 	string pass_word;
 	cout << "Enter staff ID: ";
@@ -219,16 +219,16 @@ classes** create_classes(school_year& sch_y)
 
 void display_list_classes(classes** list_classes, int n_o_cla)
 {
-	cout << left << setw(5) << " STT" << char(179) << setw(20) << "     Class name" << char(179) << setw(19) << "  Num of students";
+	cout << left << setw(5) << " STT" << char(179) << setw(14) << "     Class name" << char(179) << setw(19) << "  Num of students";
 	cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
-	cout << setw(20) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(14) << setfill(char(196)) << char(196) << char(197);
 	cout << setw(19) << setfill(char(196)) << char(196);
 	cout << endl << setfill(' ');
 	for (int i = 0; i < n_o_cla; i++)
 	{
 		string stt = to_string(i + 1);
 		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
-		cout << "     " << setw(15) << list_classes[i]->name_cla << char(179);
+		cout << "   " << setw(11) << list_classes[i]->name_cla << char(179);
 		cout << "        " << setw(11) << list_classes[i]->n_o_stu_in_cla;
 		cout << endl;
 	}
@@ -654,8 +654,8 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 
 void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students)
 {
-	staff* staff = sign_in_staff(list_staffs, n_o_staffs);
-	if (staff != nullptr)
+	staff* sta = sign_in_staff(list_staffs, n_o_staffs);
+	if (sta != nullptr)
 	{
 		system("cls");
 		display_frame();
@@ -673,14 +673,14 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 				system("cls");
 				display_frame();
 				cout << "Personal profile information: ";
-				display_staff(staff);
+				display_staff(sta);
 				break;
 			}
 			case 2:
 			{
 				system("cls");
 				display_frame();
-				if (change_password_staff(staff))
+				if (change_password_staff(sta))
 				{
 					system("cls");
 					display_frame();

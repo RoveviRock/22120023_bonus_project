@@ -26,7 +26,7 @@ int main(int argc, const char* argv[])
 		}
 		case 2:
 		{
-			working_console_student(list_students, n_o_students, opt);
+			working_console_student(list_students, n_o_students, opt, sch_y);
 			break;
 		}
 		case 0:

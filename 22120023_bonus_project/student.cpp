@@ -56,7 +56,7 @@ int find_pos_student_ID(student** list_students, string ID, int a, int b)	//a is
 
 student* sign_in_student(student** list_students, int n_o_students)
 {
-	student* student = nullptr;
+	student* stu = nullptr;
 	string ID;
 	string pass_word;
 	cout << "Enter student ID: ";
@@ -176,15 +176,15 @@ void menu_student_1()
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Display course list.";
-	cout << "\nType 4: Display transcript.";
+	cout << "\nType 4: Display scoreboard.";
 	cout << "\nType 5: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
-void working_console_student(student** list_students, int n_o_students, int& opt)
+void working_console_student(student** list_students, int n_o_students, int& opt, school_year& sch_y)
 {
-	student* student = sign_in_student(list_students, n_o_students);
-	if (student != nullptr)
+	student* stu = sign_in_student(list_students, n_o_students);
+	if (stu != nullptr)
 	{
 		system("cls");
 		display_frame();
@@ -193,7 +193,7 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 		while (option != 0)
 		{
 			menu_student_1();
-			while (!(cin >> option) || option < 0 || option>4)
+			while (!(cin >> option) || option < 0 || option>5)
 				invalidInput();
 			switch (option)
 			{
@@ -202,14 +202,14 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 				system("cls");
 				display_frame();
 				cout << "Personal profile information: ";
-				display_student_personal(student);
+				display_student_personal(stu);
 				break;
 			}
 			case 2:
 			{
 				system("cls");
 				display_frame();
-				if (change_password_student(student))
+				if (change_password_student(stu))
 				{
 					system("cls");
 					display_frame();
@@ -219,6 +219,40 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 			}
 			case 3:
 			{
+				system("cls");
+				display_frame();
+				if (sch_y.sem.n_o_cou == 0)
+					cout << "List courses is empty\n";
+				else
+				{
+					for (int i = 0; i < sch_y.sem.n_o_cou; i++)
+					{
+						int found = find_pos_student_ID(sch_y.sem.list_courses[i]->list_stu_of_cou, stu->student_ID, 0, sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1);
+						if (found != -1)
+						{
+							if (stu->n_o_cou_o_stu == 0)
+							{
+								stu->list_cou_o_stu = new course * [++stu->n_o_cou_o_stu];
+								stu->list_cou_o_stu[0] = sch_y.sem.list_courses[i];
+							}
+							else
+							{
+								course** new_list_cou_o_stu = new course * [++stu->n_o_cou_o_stu];
+								copy(stu->list_cou_o_stu, stu->list_cou_o_stu + stu->n_o_cou_o_stu - 1, new_list_cou_o_stu);
+								new_list_cou_o_stu[stu->n_o_cou_o_stu - 1] = sch_y.sem.list_courses[i];
+								delete[] stu->list_cou_o_stu;
+								stu->list_cou_o_stu = new_list_cou_o_stu;
+							}
+						}
+					}
+					if (stu->n_o_cou_o_stu == 0)
+						cout << "Your list courses is empty\n";
+					else
+					{
+						cout << "Your list courses in this semester:\n";
+						display_list_courses(stu->list_cou_o_stu, stu->n_o_cou_o_stu);
+					}
+				}
 				break;
 			}
 			case 4:
