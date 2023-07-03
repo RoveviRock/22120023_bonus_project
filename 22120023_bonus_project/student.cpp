@@ -63,6 +63,33 @@ student* sign_in_student(student** list_students, int n_o_students)
 	while (!(getline(cin, ID)))
 		invalidInput();
 	int pos = find_pos_student_ID(list_students, ID, 0, n_o_students - 1);
+	while (pos == -1)
+	{
+		int opt = -1;
+		cout << "\nID is not correct\nType 1: Re-enter ID.\nType 0: Exit.\n\nEnter option: ";
+		while (!(cin >> opt) || opt < 0 || opt>1)
+			invalidInput();
+		switch (opt)
+		{
+		case 1:
+		{
+			cin.ignore(1000, '\n');
+			cout << "Re-enter staff ID: ";
+			while (!(getline(cin, ID)))
+				invalidInput();
+			pos = find_pos_student_ID(list_students, ID, 0, n_o_students - 1);
+			break;
+		}
+		case 0:
+		{
+			system("cls");
+			display_frame();
+			cout << "Sign in failed\n";
+			return nullptr;
+			break;
+		}
+		}
+	}
 	if (pos != -1)
 	{
 		cout << "Enter password: ";
@@ -71,7 +98,7 @@ student* sign_in_student(student** list_students, int n_o_students)
 		while (pass_word != list_students[pos]->pass_word)
 		{
 			int option = -1;
-			cout << "Password is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\nEnter option: ";
+			cout << "\nPassword is not correct\nType 1: Re-enter password.\nType 0: Forgot password.\n\nEnter option: ";
 			while (!(cin >> option) || option < 0 || option>1)
 				invalidInput();
 			switch (option)
@@ -79,13 +106,15 @@ student* sign_in_student(student** list_students, int n_o_students)
 			case 1:
 			{
 				cin.ignore(1000, '\n');
-				cout << "Re-enter password: ";
+				cout << "\nRe-enter password: ";
 				while (!(getline(cin, pass_word)))
 					invalidInput();
 				break;
 			}
 			case 0:
 			{
+				system("cls");
+				display_frame();
 				cout << "Sign in failed\n";
 				return nullptr;
 			}
@@ -237,11 +266,23 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 							}
 							else
 							{
-								course** new_list_cou_o_stu = new course * [++stu->n_o_cou_o_stu];
-								copy(stu->list_cou_o_stu, stu->list_cou_o_stu + stu->n_o_cou_o_stu - 1, new_list_cou_o_stu);
-								new_list_cou_o_stu[stu->n_o_cou_o_stu - 1] = sch_y.sem.list_courses[i];
-								delete[] stu->list_cou_o_stu;
-								stu->list_cou_o_stu = new_list_cou_o_stu;
+								bool found_2 = false;
+								for (int j = 0; j < stu->n_o_cou_o_stu; j++)
+								{
+									if (sch_y.sem.list_courses[i]->ID == stu->list_cou_o_stu[j]->ID)
+									{
+										found = true;
+										break;
+									}
+								}
+								if (!found)
+								{
+									course** new_list_cou_o_stu = new course * [++stu->n_o_cou_o_stu];
+									copy(stu->list_cou_o_stu, stu->list_cou_o_stu + stu->n_o_cou_o_stu - 1, new_list_cou_o_stu);
+									new_list_cou_o_stu[stu->n_o_cou_o_stu - 1] = sch_y.sem.list_courses[i];
+									delete[] stu->list_cou_o_stu;
+									stu->list_cou_o_stu = new_list_cou_o_stu;
+								}
 							}
 						}
 					}
@@ -284,5 +325,15 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 			system("cls");
 			display_frame();
 		}
+	}
+	if (stu == nullptr)
+	{
+		cout << "\nContinue or exit the system?\nType 1: Continue.\nType 0: Exit the system.\n\nEnter option: ";
+		while (!(cin >> opt) || opt < 0 || opt>1)
+			invalidInput();
+		if (opt == 1)
+			opt = -1;
+		system("cls");
+		display_frame();
 	}
 }

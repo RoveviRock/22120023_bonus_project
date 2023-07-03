@@ -61,6 +61,33 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 	while (!(getline(cin, ID)))
 		invalidInput();
 	int pos = find_pos_staff_ID(list_staffs, ID, 0, n_o_staffs - 1);
+	while (pos == -1)
+	{
+		int opt = -1;
+		cout << "\nID is not correct\nType 1: Re-enter ID.\nType 0: Exit.\n\nEnter option: ";
+		while (!(cin >> opt) || opt < 0 || opt>1)
+			invalidInput();
+		switch (opt)
+		{
+		case 1:
+		{
+			cin.ignore(1000, '\n');
+			cout << "Re-enter staff ID: ";
+			while (!(getline(cin, ID)))
+				invalidInput();
+			pos = find_pos_staff_ID(list_staffs, ID, 0, n_o_staffs - 1);
+			break;
+		}
+		case 0:
+		{
+			system("cls");
+			display_frame();
+			cout << "Sign in failed\n";
+			return nullptr;
+			break;
+		}
+		}
+	}
 	if (pos != -1)
 	{
 		cout << "Enter password: ";
@@ -77,7 +104,7 @@ staff* sign_in_staff(staff** list_staffs, int n_o_staffs)
 			case 1:
 			{
 				cin.ignore(1000, '\n');
-				cout << "Re-enter password: ";
+				cout << "\nRe-enter password: ";
 				while (!(getline(cin, pass_word)))
 					invalidInput();
 				break;
@@ -814,5 +841,15 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 			system("cls");
 			display_frame();
 		}
+	}
+	if (sta == nullptr)
+	{
+		cout << "\nContinue or exit the system?\nType 1: Continue.\nType 0: Exit the system.\n\nEnter option: ";
+		while (!(cin >> opt) || opt < 0 || opt>1)
+			invalidInput();
+		if (opt == 1)
+			opt = -1;
+		system("cls");
+		display_frame();
 	}
 }
