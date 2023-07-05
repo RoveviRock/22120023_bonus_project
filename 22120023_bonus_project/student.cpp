@@ -193,7 +193,6 @@ void display_list_students(student** list_students, int n_o_students)
 	cout << endl << setfill(' ');
 	for (int i = 0; i < n_o_students; i++)
 	{
-		//cout << "\nSTT: " << i + 1;
 		string stt = to_string(i + 1);
 		cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
 		display_student_frame(list_students[i]);
@@ -202,12 +201,110 @@ void display_list_students(student** list_students, int n_o_students)
 
 void menu_student_1()
 {
+	cout << "\nSTUDENT'S MENU:";
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Display course list.";
-	cout << "\nType 4: Display scoreboard.";
+	cout << "\nType 4: View scoreboard.";
 	cout << "\nType 5: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
+}
+
+void view_scoreboard_of_stu(string stu_ID, school_year sch_y)
+{
+	cout << "Your scoreboard:\n";
+	cout << left << setw(5) << " STT" << char(179) << setw(25) << "       Course name" << char(179) << setw(14) << " Midterm mark" << char(179) << setw(12) << " Final mark" << char(179) << setw(12) << " Total mark";
+	cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(25) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(14) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(12) << setfill(char(196)) << char(196) << char(197);
+	cout << setw(12) << setfill(char(196)) << char(196);
+	cout << endl << setfill(' ');
+	int k = 1;
+	for (int i = 0; i < sch_y.sem.n_o_cou; i++)
+	{
+		int found = find_pos_student_ID(sch_y.sem.list_courses[i]->list_stu_of_cou, stu_ID, 0, sch_y.sem.list_courses[i]->n_o_stu_in_cou - 1);
+		if (found != -1)
+		{
+			string file_name;
+			file_name = sch_y.sem.list_courses[i]->ID + "_sb.txt";
+			fstream csv;
+			csv.open(file_name, ios_base::in);
+			if (!csv)
+			{
+				cout << "\nMo file CSV that bai!\n";
+				return;
+			}
+			string line;
+			char c;
+			getline(csv, line); // first line includes only the headings
+			for (int j = 0; j < sch_y.sem.list_courses[i]->n_o_stu_in_cou; j++)
+			{
+				string ID, first_name, last_name, midterm_mark, final_mark, total_mark;
+				score mark;
+				getline(csv, ID, ',');
+				getline(csv, first_name, ',');
+				getline(csv, last_name, ',');
+				getline(csv, midterm_mark, ',');
+				getline(csv, final_mark, ',');
+				getline(csv, total_mark);
+				if (ID == stu_ID)
+				{
+					mark.midterm_mark = stod(midterm_mark);
+					mark.final_mark = stod(final_mark);
+					mark.total_mark = stod(total_mark);
+					// display student
+					string stt = to_string(k++);
+					cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
+					cout << setw(25) << sch_y.sem.list_courses[i]->course_name << char(179);
+					cout << "     " << setw(9) << mark.midterm_mark << char(179);
+					cout << "    " << setw(8) << mark.final_mark << char(179);
+					cout << "    " << setw(8) << mark.total_mark;
+					cout << endl;
+					break;
+				}
+			}
+			csv.close();
+		}
+	}
+	for (int i = 0; i < sch_y.n_o_cla; i++)
+	{
+		int found = find_pos_student_ID(sch_y.list_classes[i]->list_stu_of_class, stu_ID, 0, sch_y.list_classes[i]->n_o_stu_in_cla - 1);
+		if (found != -1)
+		{
+			string file_name;
+			file_name = sch_y.list_classes[i]->name_cla + "_sb.txt";
+			fstream csv;
+			csv.open(file_name, ios_base::in);
+			if (!csv)
+			{
+				cout << "\nMo file CSV that bai!\n";
+				return;
+			}
+			string line;
+			char c;
+			getline(csv, line); // first line includes only the headings
+			for (int j = 0; j < sch_y.list_classes[i]->n_o_stu_in_cla; j++)
+			{
+				string ID, first_name, last_name, gpa, overall_gpa;
+				score mark;
+				getline(csv, ID, ',');
+				getline(csv, first_name, ',');
+				getline(csv, last_name, ',');
+				getline(csv, gpa, ',');
+				getline(csv, overall_gpa);
+				if(ID==stu_ID)
+				{
+					mark.gpa = stod(gpa);
+					mark.overall_gpa = stod(overall_gpa);
+					cout << "\nYour GPA of this semester: " << mark.gpa;
+					cout << "\nYour overall GPA: " << mark.overall_gpa << endl;
+					break;
+				}
+			}
+			csv.close();
+		}
+	}
 }
 
 void working_console_student(student** list_students, int n_o_students, int& opt, school_year& sch_y)
@@ -298,6 +395,14 @@ void working_console_student(student** list_students, int n_o_students, int& opt
 			}
 			case 4:
 			{
+				system("cls");
+				display_frame();
+				if (sch_y.sem.n_o_cou == 0)
+					cout << "Can't view\n";
+				else
+				{
+					view_scoreboard_of_stu(stu->student_ID, sch_y);
+				}
 				break;
 			}
 			case 5:

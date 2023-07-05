@@ -1,2 +1,10 @@
-﻿  student.cpp
+﻿  common.cpp
+  main.cpp
+  staff.cpp
+C:\Users\ROCK\source\repos\22120023_bonus_project\22120023_bonus_project\staff.cpp(450,9): warning C4101: 'c': unreferenced local variable
+C:\Users\ROCK\source\repos\22120023_bonus_project\22120023_bonus_project\staff.cpp(520,9): warning C4101: 'c': unreferenced local variable
+  student.cpp
+C:\Users\ROCK\source\repos\22120023_bonus_project\22120023_bonus_project\student.cpp(239,9): warning C4101: 'c': unreferenced local variable
+C:\Users\ROCK\source\repos\22120023_bonus_project\22120023_bonus_project\student.cpp(285,9): warning C4101: 'c': unreferenced local variable
+  Generating Code...
   22120023_bonus_project.vcxproj -> C:\Users\ROCK\source\repos\22120023_bonus_project\Debug\22120023_bonus_project.exe

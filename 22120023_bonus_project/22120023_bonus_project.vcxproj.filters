@@ -19,6 +19,12 @@
     <Filter Include="Resource Files\courses member list">
       <UniqueIdentifier>{6a22034d-c261-482a-8378-b1316c7a1696}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\export lists of students in courses">
+      <UniqueIdentifier>{9cada092-e932-44d4-adbe-0942f76f488b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\scoreboard list">
+      <UniqueIdentifier>{7610c3a5-2ac4-4f09-8e80-7e3237bccce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMS.h">
@@ -57,6 +63,24 @@
     </Text>
     <Text Include="MTH100004.txt">
       <Filter>Resource Files\courses member list</Filter>
+    </Text>
+    <Text Include="CSC10002_export.txt">
+      <Filter>Resource Files\export lists of students in courses</Filter>
+    </Text>
+    <Text Include="MTH100004_export.txt">
+      <Filter>Resource Files\export lists of students in courses</Filter>
+    </Text>
+    <Text Include="CSC10002_sb.txt">
+      <Filter>Resource Files\scoreboard list</Filter>
+    </Text>
+    <Text Include="MTH100004_sb.txt">
+      <Filter>Resource Files\scoreboard list</Filter>
+    </Text>
+    <Text Include="22CTT2_sb.txt">
+      <Filter>Resource Files\scoreboard list</Filter>
+    </Text>
+    <Text Include="22APCS1_sb.txt">
+      <Filter>Resource Files\scoreboard list</Filter>
     </Text>
   </ItemGroup>
 </Project>

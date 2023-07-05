@@ -31,6 +31,16 @@ typedef struct STAFF
 
 typedef struct COURSE course;
 
+typedef struct SCORE
+{
+	//course cou;
+	double midterm_mark = 0;
+	double final_mark = 0;
+	double total_mark = 0;
+	double gpa = 0;
+	double overall_gpa = 0;
+} score;
+
 typedef struct STUDENT
 {
 	string student_ID;
@@ -42,6 +52,7 @@ typedef struct STUDENT
 	string pass_word;
 	int n_o_cou_o_stu = 0;	// num of courses of student 
 	course** list_cou_o_stu = nullptr;	// list courses of student
+	score** list_sco = nullptr;
 } student;
 
 typedef struct CLASSES
@@ -113,7 +124,10 @@ void menu_staff_2();
 course* create_course();
 void display_course(course* course);
 void display_list_courses(course** list_courses, int n_o_cou);
+void export_lists_stu_o_cou(course** list_courses, int n_o_cou);
 void display_list_stu_o_course(course** list_courses, int n_o_cou);
+void view_scoreboard_of_cou(course** list_courses, int n_o_cou);
+void view_scoreboard_of_cla(classes** list_classes, int n_o_cla);
 void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school_year& sch_y, student** list_students, int n_o_students);
 
@@ -126,6 +140,7 @@ void display_student_personal(student* student);
 void display_student_frame(student* student);
 void display_list_students(student** list_students, int n_o_students);
 void menu_student_1();
+void view_scoreboard_of_stu(string stu_ID, school_year sch_y);
 void working_console_student(student** list_students, int n_o_students, int& opt, school_year& sch_y);
 
 #endif // !_course_management_system_h_

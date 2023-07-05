@@ -1,0 +1,31 @@
+Student_ID,first_name,last_name
+22120001,Le Van,An
+22120002,Bui Thi,An
+22120003,Nguyen Duc,An
+22120004,Nguyen Huynh,An
+22120005,Dang Thi,Anh
+22120006,Dang Van,Anh
+22120007,Hoang Thi,Anh
+22120008,Le,Anh
+22120009,Le Gia,Anh
+22120010,Nguyen Thi,Anh
+22120011,Bui Van,Bao
+22120012,Hoang Van,Bao
+22120013,Le Nguyen Gia,Bao
+22120014,Le Thanh,Bao
+22120015,Ngo Chi,Bao
+22120016,Ngo Van,Bao
+22120017,Nguyen Le,Bao
+22120018,Phan,Bao
+22120019,Nguyen Thi,Binh
+22120020,Phan Nguyen Duc,Binh
+22120021,Nguyen,Chau
+22120022,Pham Van,Chau
+22120023,Nguyen Van,Dieu
+22120024,Pham Thi,Dieu
+22120025,Bui Thi,Duc
+22120026,Le Van,Duc
+22120027,Nguyen Dinh,Duc
+22120028,Nguyen Duc,Duc
+22120029,Nguyen Huynh,Duc
+22120030,Phan Van,Duc

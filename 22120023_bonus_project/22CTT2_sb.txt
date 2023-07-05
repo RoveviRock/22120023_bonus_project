@@ -1,0 +1,31 @@
+Student_ID,first_name,last_name,GPA,overall_GPA
+22120001,Le Van,An,9.85,6.98
+22120002,Bui Thi,An,6.57,9.85
+22120003,Nguyen Duc,An,7.41,9.46
+22120004,Nguyen Huynh,An,8.67,6.86
+22120005,Dang Thi,Anh,7.24,9.48
+22120006,Dang Van,Anh,6.03,5.46
+22120007,Hoang Thi,Anh,8.02,9.42
+22120008,Le,Anh,5.27,6.96
+22120009,Le Gia,Anh,8.18,9.46
+22120010,Nguyen Thi,Anh,7.09,7.18
+22120011,Bui Van,Bao,8.09,9.9
+22120012,Hoang Van,Bao,8.14,8.9
+22120013,Le Nguyen Gia,Bao,9.28,7.63
+22120014,Le Thanh,Bao,9.67,8.94
+22120015,Ngo Chi,Bao,6.42,6.67
+22120016,Ngo Van,Bao,5.68,8.61
+22120017,Nguyen Le,Bao,6.64,5.32
+22120018,Phan,Bao,6.58,9.28
+22120019,Nguyen Thi,Binh,8.45,8.23
+22120020,Phan Nguyen Duc,Binh,8.88,6.4
+22120021,Nguyen,Chau,6.69,9.08
+22120022,Pham Van,Chau,7.76,6.07
+22120023,Nguyen Van,Dieu,8.82,8
+22120024,Pham Thi,Dieu,6.94,6.74
+22120025,Bui Thi,Duc,5.39,8.7
+22120026,Le Van,Duc,6.41,9.45
+22120027,Nguyen Dinh,Duc,6.98,6.25
+22120028,Nguyen Duc,Duc,8.19,7.51
+22120029,Nguyen Huynh,Duc,5.44,6.02
+22120030,Phan Van,Duc,7.49,5.23

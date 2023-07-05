@@ -263,6 +263,7 @@ void display_list_classes(classes** list_classes, int n_o_cla)
 
 void menu_staff_1()
 {
+	cout << "\nSTAFF'S MENU:";
 	cout << "\nType 1: Display personal profile information.";
 	cout << "\nType 2: Change password.";
 	cout << "\nType 3: Create a school year and several classes.";
@@ -276,6 +277,7 @@ void menu_staff_1()
 
 void menu_staff_2()
 {
+	cout << "\nMANAGEMENT A SEMESTER MENU:";
 	cout << "\nType 1: Create current semester.";
 	cout << "\nType 2: Add a course.";
 	cout << "\nType 3: Display list courses.";
@@ -284,8 +286,11 @@ void menu_staff_2()
 	cout << "\nType 6: Add a student to the course.";
 	cout << "\nType 7: Remove a student from the course.";
 	cout << "\nType 8: Delete a course.";
-	cout << "\nType 9: Back to main menu.";
-	cout << "\nType 10: Exit the system.";
+	cout << "\nType 9: Export a list of students in course to a CSV file.";
+	cout << "\nType 10: View the scoreboard of a course.";
+	cout << "\nType 11: View the scoreboard of a class.";
+	cout << "\nType 12: Back to main menu.";
+	cout << "\nType 13: Exit the system.";
 	cout << "\nType 0: Sign out.\n\nEnter option: ";
 }
 
@@ -364,6 +369,188 @@ void display_list_stu_o_course(course** list_courses, int n_o_cou)
 		cout << "\nThe course with the ID entered does not exist\n";
 }
 
+void export_lists_stu_o_cou(course** list_courses, int n_o_cou)
+{
+	string cou_ID;
+	string file_name;
+	cin.ignore(1000, '\n');
+	cout << "Enter the ID of the course to export: ";
+	while (!(getline(cin, cou_ID)))
+		invalidInput();
+	bool found = false;
+	for (int i = 0; i < n_o_cou; i++)
+	{
+		if (cou_ID == list_courses[i]->ID)
+		{
+			found = true;
+			file_name = cou_ID + "_export.txt";
+			fstream csv;
+			csv.open(file_name, ios_base::out);
+			if (!csv)
+			{
+				cout << "\nMo file CSV that bai!\n";
+				return;
+			}
+			else
+			{
+				csv << "Student_ID,first_name,last_name\n";
+				for (int j = 0; j < list_courses[i]->n_o_stu_in_cou; j++)
+				{
+					csv << list_courses[i]->list_stu_of_cou[j]->student_ID << ",";
+					csv << list_courses[i]->list_stu_of_cou[j]->first_name << ",";
+					csv << list_courses[i]->list_stu_of_cou[j]->last_name << "\n";
+				}
+			}
+			csv.close();
+			cout << "\nExport successful\n";
+			return;
+		}
+	}
+	if (!found)
+	{
+		cout << "\nThe course with the ID entered does not exist\n";
+		return;
+	}
+}
+
+void view_scoreboard_of_cou(course** list_courses, int n_o_cou)
+{
+	string cou_ID;
+	cin.ignore(1000, '\n');
+	cout << "Enter the ID of the course to export: ";
+	while (!(getline(cin, cou_ID)))
+		invalidInput();
+	bool found = false;
+	for (int i = 0; i < n_o_cou; i++)
+	{
+		if (cou_ID == list_courses[i]->ID)
+		{
+			found = true;
+			string file_name;
+			file_name = cou_ID + "_sb.txt";
+			// display board header
+			cout << "Scoreboard of course '" << list_courses[i]->course_name << "':\n";
+			cout << left << setw(5) << " STT" << char(179) << setw(14) << "  Student ID" << char(179) << setw(20) << "     First name" << char(179) << setw(10) << "   Name" << char(179) << setw(14) << " Midterm mark" << char(179) << setw(12) << " Final mark" << char(179) << setw(12) << " Total mark";
+			cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(14) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(20) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(10) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(14) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(12) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(12) << setfill(char(196)) << char(196);
+			cout << endl << setfill(' ');
+			fstream csv;
+			csv.open(file_name, ios_base::in);
+			if (!csv)
+			{
+				cout << "\nMo file CSV that bai!\n";
+				return;
+			}
+			string line;
+			char c;
+			getline(csv, line); // first line includes only the headings
+			for (int j = 0; j < list_courses[i]->n_o_stu_in_cou; j++)
+			{
+				string ID, first_name, last_name, midterm_mark, final_mark, total_mark;
+				score mark;
+				getline(csv, ID, ',');
+				getline(csv, first_name, ',');
+				getline(csv, last_name, ',');
+				getline(csv, midterm_mark, ',');
+				getline(csv, final_mark, ',');
+				getline(csv, total_mark);
+				mark.midterm_mark = stod(midterm_mark);
+				mark.final_mark = stod(final_mark);
+				mark.total_mark = stod(total_mark);
+				// display student
+				string stt = to_string(j + 1);
+				cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
+				cout << setw(14) << ID << char(179);
+				cout << setw(20) << first_name << char(179);
+				cout << setw(10) << last_name << char(179);
+				cout << "     " << setw(9) << mark.midterm_mark << char(179);
+				cout << "    " << setw(8) << mark.final_mark << char(179);
+				cout << "    " << setw(8) << mark.total_mark;
+				cout << endl;
+			}
+			csv.close();
+			return;
+		}
+	}
+	if (!found)
+	{
+		cout << "\nThe course with the ID entered does not exist\n";
+		return;
+	}
+}
+
+void view_scoreboard_of_cla(classes** list_classes, int n_o_cla)
+{
+	string cla_name;
+	cin.ignore(1000, '\n');
+	cout << "Enter the ID of the course to export: ";
+	while (!(getline(cin, cla_name)))
+		invalidInput();
+	bool found = false;
+	for (int i = 0; i < n_o_cla; i++)
+	{
+		if (cla_name == list_classes[i]->name_cla)
+		{
+			found = true;
+			string file_name;
+			file_name = cla_name + "_sb.txt";
+			// display board header
+			cout << "Scoreboard of class '" << list_classes[i]->name_cla << "':\n";
+			cout << left << setw(5) << " STT" << char(179) << setw(14) << "  Student ID" << char(179) << setw(20) << "     First name" << char(179) << setw(10) << "   Name" << char(179) << setw(7) << "  GPA" << char(179) << setw(15) << "  Overall GPA";
+			cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(14) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(20) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(10) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(7) << setfill(char(196)) << char(196) << char(197);
+			cout << setw(15) << setfill(char(196)) << char(196);
+			cout << endl << setfill(' ');
+			fstream csv;
+			csv.open(file_name, ios_base::in);
+			if (!csv)
+			{
+				cout << "\nMo file CSV that bai!\n";
+				return;
+			}
+			string line;
+			char c;
+			getline(csv, line); // first line includes only the headings
+			for (int j = 0; j < list_classes[i]->n_o_stu_in_cla; j++)
+			{
+				string ID, first_name, last_name, gpa, overall_gpa;
+				score mark;
+				getline(csv, ID, ',');
+				getline(csv, first_name, ',');
+				getline(csv, last_name, ',');
+				getline(csv, gpa, ',');
+				getline(csv, overall_gpa);
+				mark.gpa = stod(gpa);
+				mark.overall_gpa = stod(overall_gpa);
+				// display student
+				string stt = to_string(j + 1);
+				cout << "  " << stt << setw(5 - stt.length() - 2) << " " << char(179);
+				cout << setw(14) << ID << char(179);
+				cout << setw(20) << first_name << char(179);
+				cout << setw(10) << last_name << char(179);
+				cout << " " << setw(6) << mark.gpa << char(179);
+				cout << "    " << setw(11) << mark.overall_gpa;
+				cout << endl;
+			}
+			csv.close();
+			return;
+		}
+	}
+	if (!found)
+	{
+		cout << "\nThe class with the name entered does not exist\n";
+		return;
+	}
+}
+
 void management_semester(int& option, int& option_2, int& opt, school_year& sch_y, student** list_students, int n_o_students)
 {
 	system("cls");
@@ -427,7 +614,12 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 4:
 	{
-		display_list_stu_o_course(sch_y.sem.list_courses, sch_y.sem.n_o_cou);
+		if (sch_y.sem.n_o_cou == 0)
+			cout << "List courses is empty\n";
+		else
+		{
+			display_list_stu_o_course(sch_y.sem.list_courses, sch_y.sem.n_o_cou);
+		}
 		break;
 	}
 	case 5:
@@ -642,11 +834,41 @@ void management_semester(int& option, int& option_2, int& opt, school_year& sch_
 	}
 	case 9:
 	{
+		if (sch_y.sem.n_o_cou == 0)
+			cout << "List courses is empty\n";
+		else
+		{
+			export_lists_stu_o_cou(sch_y.sem.list_courses, sch_y.sem.n_o_cou);
+		}
+		break;
+	}
+	case 10:
+	{
+		if (sch_y.sem.n_o_cou == 0)
+			cout << "List courses is empty\n";
+		else
+		{
+			view_scoreboard_of_cou(sch_y.sem.list_courses, sch_y.sem.n_o_cou);
+		}
+		break;
+	}
+	case 11:
+	{
+		if (sch_y.n_o_cla == 0)
+			cout << "List class is empty\n";
+		else
+		{
+			view_scoreboard_of_cla(sch_y.list_classes, sch_y.n_o_cla);
+		}
+		break;
+	}
+	case 12:
+	{
 		option_2 = 0;
 		option = -1;
 		break;
 	}
-	case 10:
+	case 13:
 	{
 		option_2 = 0;
 		option = 0;
@@ -810,7 +1032,7 @@ void working_console_staff(staff** list_staffs, int n_o_staffs, int& opt, school
 				while (option_2 != 0)
 				{
 					menu_staff_2();
-					while (!(cin >> option_2) || option_2 < 0 || option_2>10)
+					while (!(cin >> option_2) || option_2 < 0 || option_2>13)
 						invalidInput();
 					management_semester(option, option_2, opt, sch_y, list_students, n_o_students);
 				}
