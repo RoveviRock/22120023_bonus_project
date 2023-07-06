@@ -29,4 +29,3 @@ Student_ID,first_name,last_name,midterm_mark,final_mark,total_mark
 22120028,Nguyen Duc,Duc,6.38,1.45,3.91
 22120029,Nguyen Huynh,Duc,6.04,6.46,6.25
 22120030,Phan Van,Duc,8.1,5.75,6.93
-

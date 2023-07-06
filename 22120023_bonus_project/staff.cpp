@@ -246,7 +246,7 @@ classes** create_classes(school_year& sch_y)
 
 void display_list_classes(classes** list_classes, int n_o_cla)
 {
-	cout << left << setw(5) << " STT" << char(179) << setw(14) << "     Class name" << char(179) << setw(19) << "  Num of students";
+	cout << left << setw(5) << " STT" << char(179) << setw(14) << "  Class name" << char(179) << setw(19) << "  Num of students";
 	cout << endl << setw(5) << setfill(char(196)) << char(196) << char(197);
 	cout << setw(14) << setfill(char(196)) << char(196) << char(197);
 	cout << setw(19) << setfill(char(196)) << char(196);

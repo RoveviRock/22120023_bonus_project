@@ -1,0 +1,40 @@
+Student_ID,first_name,last_name,midterm_mark,final_mark,total_mark
+22120001,Le Van,An,8.22,7.55,7.88
+22120002,Bui Thi,An,8.89,9.08,8.98
+22120003,Nguyen Duc,An,9.16,6.09,7.62
+22120004,Nguyen Huynh,An,6.31,8.75,7.53
+22120005,Dang Thi,Anh,8.57,3.7,6.14
+22120006,Dang Van,Anh,7.52,9.54,8.53
+22120007,Hoang Thi,Anh,6.24,7.91,7.08
+22120008,Le,Anh,8.6,2.03,5.32
+22120009,Le Gia,Anh,5.23,4.55,4.89
+22120010,Nguyen Thi,Anh,5.28,9.7,7.49
+22120011,Bui Van,Bao,9.82,6.25,8.04
+22120012,Hoang Van,Bao,7.35,4.66,6
+22120013,Le Nguyen Gia,Bao,5.54,5.34,5.44
+22120014,Le Thanh,Bao,6.49,3.77,5.13
+22120015,Ngo Chi,Bao,9.95,4.11,7.03
+22120016,Ngo Van,Bao,5.26,6.16,5.71
+22120017,Nguyen Le,Bao,9.9,8.83,9.36
+22120018,Phan,Bao,9.43,6.11,7.77
+22120019,Nguyen Thi,Binh,5.38,5.26,5.32
+22120020,Phan Nguyen Duc,Binh,6.13,8.88,7.51
+22120021,Nguyen,Chau,6.04,5.39,5.71
+22120022,Pham Van,Chau,7.37,7.99,7.68
+22120023,Nguyen Van,Dieu,6.51,6.91,6.71
+22120024,Pham Thi,Dieu,7.95,8.13,8.04
+22120025,Bui Thi,Duc,9.66,5.54,7.6
+22120026,Le Van,Duc,5.51,6.24,5.88
+22120027,Nguyen Dinh,Duc,9.4,5.65,7.53
+22120028,Nguyen Duc,Duc,8.68,3.76,6.22
+22120029,Nguyen Huynh,Duc,5.67,1.13,3.4
+22120030,Phan Van,Duc,8.36,5.02,6.69
+22120031,Dang Thi,Giang,7.68,2.55,5.11
+22120032,Dang Van,Giang,6.72,8.97,7.85
+22120033,Hoang Thi,Ha,5.34,8.3,6.82
+22120034,Nguyen Thi,Ha,6.07,3.89,4.98
+22120035,Le,Hanh,9.13,8.05,8.59
+22120036,Le Gia,Hanh,5.62,1.7,3.66
+22120037,Bui Van,Hieu,6.57,3.9,5.23
+22120038,Hoang Van,Hieu,7.64,7.06,7.35
+22120039,Le Thi,Hieu,8.21,6.13,7.17
